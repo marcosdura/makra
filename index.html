@@ -36,7 +36,6 @@
     .m-catalog-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 14px !important; }
   }
 </style>
-<script src="./image-slot.js"></script>
 </helmet>
 
 <div style="min-height:100vh;">
@@ -69,7 +68,7 @@
     <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(40,44,32,0.4), rgba(40,44,32,0) 22%, rgba(40,44,32,0) 55%, rgba(40,44,32,0.4)); pointer-events:none;"></div>
     <div style="position:relative; max-width:920px; width:100%; margin:0 auto; text-align:left; padding:24px clamp(28px,7vw,80px) clamp(44px,7vh,84px); animation:fadeUp 1s ease both;">
       <div style="font-size:11px; letter-spacing:0.4em; text-transform:uppercase; opacity:0.9; margin-bottom:12px;">Accesorios tejidos a mano</div>
-      <a href="#chokers" style="display:inline-block; color:#ffffff; font-family:'Jost',sans-serif; font-size:11px; letter-spacing:0.4em; text-transform:uppercase; border-bottom:1px solid rgba(255,255,255,0.7); padding-bottom:5px; transition:opacity 0.25s;" style-hover="opacity:0.6;">Descubrí la colección</a>
+      <a href="#{{ firstAnchor }}" style="display:inline-block; color:#ffffff; font-family:'Jost',sans-serif; font-size:11px; letter-spacing:0.4em; text-transform:uppercase; border-bottom:1px solid rgba(255,255,255,0.7); padding-bottom:5px; transition:opacity 0.25s;" style-hover="opacity:0.6;">Descubrí la colección</a>
     </div>
   </header>
 
@@ -82,25 +81,25 @@
             <div style="font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:#9aa085; margin-bottom:8px;">Colección</div>
             <h2 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(30px,4.5vw,48px); margin:0; color:#3a3f2f;">{{ cat.name }}</h2>
           </div>
-          <p style="max-width:340px; font-weight:300; font-size:14px; line-height:1.6; color:#6b7059; margin:0 0 4px; text-align:right;">{{ cat.blurb }}</p>
+          <p style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:18px; color:#8f9578; margin:0 0 4px; text-align:right;">{{ cat.countLabel }}</p>
         </div>
         <div class="m-catalog-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(230px,1fr)); gap:clamp(18px,2.5vw,32px);">
           <sc-for list="{{ cat.products }}" as="p" hint-placeholder-count="4">
             <article style="display:flex; flex-direction:column;">
-              <div style="position:relative; aspect-ratio:4/5; background:#e7e6db; border-radius:3px; overflow:hidden;">
-                <image-slot id="{{ p.slotId }}" shape="rect" placeholder="{{ p.placeholder }}"></image-slot>
+              <div style="position:relative; aspect-ratio:4/5; background:#e7e6db; border-radius:14px; overflow:hidden;">
+                <img src="{{ p.src }}" alt="{{ p.alt }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
               </div>
-              <div style="padding:16px 2px 0;">
-                <h3 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:21px; margin:0; color:#3a3f2f;">{{ p.name }}</h3>
-                <div style="font-size:12px; letter-spacing:0.06em; color:#9aa085; margin-top:5px; text-transform:uppercase;">{{ p.detail }}</div>
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-top:14px;">
-                  <span style="font-family:'Cormorant Garamond',serif; font-size:20px; color:#5a6146;">{{ p.price }}</span>
-                  <button onClick="{{ openContact }}" style="background:none; border:1px solid #c3c8b3; color:#5a6146; font-family:'Jost',sans-serif; font-size:10.5px; letter-spacing:0.16em; text-transform:uppercase; padding:8px 14px; cursor:pointer; border-radius:2px;" style-hover="background:#6d7a54; border-color:#6d7a54; color:#ffffff;">Consultar</button>
-                </div>
+              <div style="padding:14px 2px 0; display:flex; justify-content:flex-end;">
+                <button onClick="{{ openContact }}" style="background:none; border:1px solid #c3c8b3; color:#5a6146; font-family:'Jost',sans-serif; font-size:10.5px; letter-spacing:0.16em; text-transform:uppercase; padding:8px 14px; cursor:pointer; border-radius:2px;" style-hover="background:#6d7a54; border-color:#6d7a54; color:#ffffff;">Consultar</button>
               </div>
             </article>
           </sc-for>
         </div>
+        <sc-if value="{{ cat.hasMore }}" hint-placeholder-val="{{ false }}">
+          <div style="text-align:center; margin-top:32px;">
+            <button onClick="{{ cat.toggle }}" style="background:none; border:1px solid #c3c8b3; color:#5a6146; font-family:'Jost',sans-serif; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; padding:12px 30px; cursor:pointer; border-radius:2px; transition:background 0.25s, color 0.25s, border-color 0.25s;" style-hover="background:#6d7a54; border-color:#6d7a54; color:#ffffff;">{{ cat.toggleLabel }}</button>
+          </div>
+        </sc-if>
       </section>
     </sc-for>
   </main>
@@ -229,7 +228,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
-  state = { panel: null, openFaq: 0, scrolled: false, navHover: false };
+  state = { panel: null, openFaq: 0, scrolled: false, navHover: false, expanded: {} };
 
   componentDidMount() {
     this._onScroll = () => {
@@ -244,54 +243,47 @@ class Component extends DCLogic {
   }
 
   buildCategories() {
+    const collection = (name, slug, count) => ({
+      name,
+      anchor: slug,
+      images: Array.from({ length: count }, (_, i) =>
+        './assets/collares/' + slug + '/' + String(i + 1).padStart(2, '0') + '.jpg'
+      ),
+    });
     return [
-      { name: 'Chokers', anchor: 'chokers', blurb: 'Ajustados al cuello, delicados y con presencia.', items: [
-        ['Choker Salvia', 'cuarzo verde', '$1.290'],
-        ['Choker Bruma', 'ágata gris', '$1.190'],
-        ['Choker Raíz', 'jaspe rojo', '$1.350'],
-        ['Choker Luna', 'piedra luna', '$1.490'],
-      ]},
-      { name: 'Colgantes', anchor: 'colgantes', blurb: 'Piedras engarzadas en macramé para llevar cerca.', items: [
-        ['Colgante Selva', 'amazonita', '$1.590'],
-        ['Colgante Río', 'aventurina', '$1.450'],
-        ['Colgante Tierra', 'ojo de tigre', '$1.520'],
-        ['Colgante Niebla', 'cuarzo rosa', '$1.680'],
-      ]},
-      { name: 'Pulseras', anchor: 'pulseras', blurb: 'Livianas y ajustables, para el día a día.', items: [
-        ['Pulsera Hoja', 'jade', '$890'],
-        ['Pulsera Musgo', 'malaquita', '$950'],
-        ['Pulsera Semilla', 'ámbar', '$820'],
-        ['Pulsera Brote', 'turquesa', '$990'],
-      ]},
-      { name: 'Macramé', anchor: 'macrame', blurb: 'Piezas tejidas con hilo natural, puro nudo y textura.', items: [
-        ['Collar Trenza', 'algodón encerado', '$1.290'],
-        ['Tobillera Ola', 'algodón natural', '$740'],
-        ['Cinturón Nudo', 'yute', '$1.750'],
-        ['Aros Espiral', 'algodón teñido', '$680'],
-      ]},
-      { name: 'Piedras naturales', anchor: 'piedras', blurb: 'Piedras sueltas y colecciones para combinar.', items: [
-        ['Set Cuarzos', 'cuarzo surtido', '$1.150'],
-        ['Set Ágatas', 'ágata natural', '$1.240'],
-        ['Piedra Luna', 'labradorita', '$980'],
-        ['Set Jaspes', 'jaspe surtido', '$1.090'],
-      ]},
+      collection('Collares de piedras', 'collares-de-piedras', 11),
+      collection('Joyería', 'joyeria', 14),
+      collection('Modelo Frey', 'modelo-frey', 3),
+      collection('Modelo Hila', 'modelo-hila', 11),
+      collection('Modelo Lüm', 'modelo-lum', 8),
+      collection('Modelo Trama', 'modelo-trama', 10),
+      collection('Modelos varios Pulseras', 'modelos-varios-pulseras', 9),
+      collection('Varios modelos', 'varios-modelos', 10),
     ];
   }
 
   renderVals() {
     const raw = this.buildCategories();
-    let slot = 0;
-    const categories = raw.map(c => ({
-      name: c.name,
-      anchor: c.anchor,
-      blurb: c.blurb,
-      count: String(c.items.length).padStart(2, '0'),
-      products: c.items.map(([name, detail, price]) => ({
-        name, detail, price,
-        slotId: 'prod-' + (slot++),
-        placeholder: name.toLowerCase(),
-      })),
-    }));
+    const ROW = 4; // items per row on desktop — the expand threshold
+    const expanded = this.state.expanded || {};
+    const categories = raw.map(c => {
+      const total = c.images.length;
+      const isExpanded = !!expanded[c.anchor];
+      const visibleCount = isExpanded ? total : Math.min(ROW, total);
+      return {
+        name: c.name,
+        anchor: c.anchor,
+        countLabel: total === 1 ? '1 collar' : total + ' collares',
+        hasMore: total > ROW,
+        toggleLabel: isExpanded ? 'Ver menos' : 'Ver más (+' + (total - ROW) + ')',
+        toggle: () => this.setState(s => ({
+          expanded: { ...(s.expanded || {}), [c.anchor]: !isExpanded },
+        })),
+        products: c.images.slice(0, visibleCount).map((src, i) => ({
+          src, alt: c.name + ' ' + (i + 1),
+        })),
+      };
+    });
 
     const testimonials = [
       { quote: 'Me encantó mi choker, la piedra es hermosa y se nota que está hecho con dedicación.', name: 'Camila R.' },
@@ -317,6 +309,7 @@ class Component extends DCLogic {
     const fromLeft = panel === 'contact';
     return {
       categories, testimonials, faqs,
+      firstAnchor: categories.length ? categories[0].anchor : 'top',
       panelSide: fromLeft
         ? 'left:0; box-shadow:20px 0 60px rgba(0,0,0,0.2); animation:slideInLeft 0.4s cubic-bezier(0.22,1,0.36,1) both;'
         : 'right:0; box-shadow:-20px 0 60px rgba(0,0,0,0.2); animation:slideIn 0.4s cubic-bezier(0.22,1,0.36,1) both;',
