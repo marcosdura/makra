@@ -37,12 +37,10 @@
   }
   .m-card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
   .m-card:hover { transform: translateY(-5px); box-shadow: 0 16px 30px rgba(58,63,47,0.14); }
-  .m-card:hover .m-card-img { transform: scale(1.05); }
-  .m-card-img { transition: transform 0.5s ease; }
-  .m-toggle-btn { transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease; }
-  .m-toggle-btn:hover { background: #6d7a54; border-color: #6d7a54; color: #ffffff; }
-  .m-detail-cta { transition: background 0.25s ease; }
-  .m-detail-cta:hover { background: #4d5738; }
+  .m-card-photo { transition: transform 0.5s ease; }
+  .m-card:hover .m-card-photo { transform: scale(1.06); }
+  .m-btn { display: inline-block; background: none; border: 1px solid #c3c8b3; color: #5a6146; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; padding: 14px 32px; cursor: pointer; border-radius: 14px; text-align: center; text-decoration: none; transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease; }
+  .m-btn:hover { background: #6d7a54; border-color: #6d7a54; color: #ffffff; }
   .m-back-link { transition: color 0.25s ease; }
   .m-back-link:hover { color: #3a3f2f; }
   @media (max-width: 780px) {
@@ -101,11 +99,14 @@
         <div class="m-catalog-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(230px,1fr)); gap:clamp(18px,2.5vw,32px);">
           <sc-for list="{{ cat.products }}" as="p" hint-placeholder-count="4">
             <a href="{{ p.href }}" class="m-card" style="display:flex; flex-direction:column; text-decoration:none; color:inherit;">
-              <div class="m-card-img" style="position:relative; aspect-ratio:4/5; background:#e7e6db; border-radius:14px; overflow:hidden;">
-                <img src="{{ p.src }}" alt="{{ p.alt }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
+              <div style="position:relative; aspect-ratio:4/5; background:#e7e6db; border-radius:14px; overflow:hidden;">
+                <img class="m-card-photo" src="{{ p.src }}" alt="{{ p.alt }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
               </div>
               <div style="padding:14px 2px 0;">
-                <h3 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:20px; margin:0; color:#3a3f2f;">{{ cat.name }}</h3>
+                <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px;">
+                  <h3 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:20px; margin:0; color:#3a3f2f;">{{ cat.name }}</h3>
+                  <span style="font-family:'Cormorant Garamond',serif; font-size:17px; color:#5a6146; white-space:nowrap; flex:none;">{{ cat.priceLabel }}</span>
+                </div>
                 <p style="font-weight:300; font-size:13px; line-height:1.5; color:#8a8f78; margin:6px 0 0;">{{ cat.blurb }}</p>
               </div>
             </a>
@@ -113,7 +114,7 @@
         </div>
         <sc-if value="{{ cat.hasMore }}" hint-placeholder-val="{{ false }}">
           <div style="text-align:center; margin-top:32px;">
-            <button class="m-toggle-btn" onClick="{{ cat.toggle }}" style="background:none; border:1px solid #c3c8b3; color:#5a6146; font-family:'Jost',sans-serif; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; padding:12px 30px; cursor:pointer; border-radius:2px;">{{ cat.toggleLabel }}</button>
+            <button class="m-btn" onClick="{{ cat.toggle }}">{{ cat.toggleLabel }}</button>
           </div>
         </sc-if>
       </section>
@@ -172,7 +173,7 @@
           <div style="font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:#9aa085; margin-bottom:10px;">Colección</div>
           <h1 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(30px,4vw,44px); margin:0 0 16px; color:#3a3f2f;">{{ detail.name }}</h1>
           <p style="font-weight:300; font-size:15px; line-height:1.75; color:#6b7059; margin:0 0 32px; max-width:420px;">{{ detail.description }}</p>
-          <button class="m-detail-cta" onClick="{{ openContact }}" style="background:#6d7a54; color:#ffffff; border:none; padding:16px 34px; font-family:'Jost',sans-serif; font-size:12px; letter-spacing:0.22em; text-transform:uppercase; cursor:pointer; border-radius:2px;">Consultar</button>
+          <button class="m-btn" onClick="{{ openContact }}">Consultar</button>
         </div>
       </div>
     </section>
@@ -232,7 +233,7 @@
                 <a href="#{{ cat.anchor }}" onClick="{{ closePanel }}" style="color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px; border-bottom:1px solid transparent; padding-bottom:3px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">{{ cat.name }}</a>
               </sc-for>
             </nav>
-            <button onClick="{{ openContact }}" style="margin-top:34px; width:100%; background:#6d7a54; color:#ffffff; border:none; padding:16px; font-family:'Jost',sans-serif; font-size:12px; letter-spacing:0.22em; text-transform:uppercase; cursor:pointer; border-radius:2px; transition:background 0.25s;" style-hover="background:#4d5738;">Contáctanos</button>
+            <button class="m-btn" onClick="{{ openContact }}" style="margin-top:34px; width:100%;">Contáctanos</button>
           </div>
         </sc-if>
 
@@ -335,6 +336,7 @@ class Component extends DCLogic {
         name: c.name,
         anchor: c.anchor,
         blurb: c.blurb,
+        priceLabel: c.price ? ('$' + c.price) : 'Consultar',
         countLabel: total === 1 ? '1 ' + unit : total + ' ' + unitPlural,
         hasMore: total > ROW,
         toggleLabel: isExpanded ? 'Ver menos' : 'Ver más (+' + (total - ROW) + ')',
@@ -393,7 +395,7 @@ class Component extends DCLogic {
         ? 'left:0; box-shadow:20px 0 60px rgba(0,0,0,0.2); animation:slideInLeft 0.4s cubic-bezier(0.22,1,0.36,1) both;'
         : 'right:0; box-shadow:-20px 0 60px rgba(0,0,0,0.2); animation:slideIn 0.4s cubic-bezier(0.22,1,0.36,1) both;',
       closeSide: fromLeft ? 'right:22px;' : 'right:22px;',
-      navClass: (this.state.scrolled || this.state.navHover) ? 'solid' : '',
+      navClass: (!!detail || this.state.scrolled || this.state.navHover) ? 'solid' : '',
       navEnter: () => this.setState({ navHover: true }),
       navLeave: () => this.setState({ navHover: false }),
       panelOpen: panel !== null,
