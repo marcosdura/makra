@@ -107,7 +107,7 @@
                   <h3 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:20px; margin:0; color:#3a3f2f;">{{ cat.name }}</h3>
                   <span style="font-family:'Cormorant Garamond',serif; font-size:17px; color:#5a6146; white-space:nowrap; flex:none;">{{ cat.priceLabel }}</span>
                 </div>
-                <p style="font-weight:300; font-size:13px; line-height:1.5; color:#8a8f78; margin:6px 0 0;">{{ cat.blurb }}</p>
+                <p style="font-weight:300; font-size:13px; line-height:1.5; color:#8a8f78; margin:6px 0 0;">{{ p.description }}</p>
               </div>
             </a>
           </sc-for>
@@ -331,24 +331,90 @@ class Component extends DCLogic {
   }
 
   buildCategories() {
-    const collection = (name, slug, count, blurb, extra) => ({
+    // itemDescs[i] overrides the collection's generic `blurb` for that one
+    // photo; a null/missing entry falls back to `blurb` (used for the few
+    // pieces whose code we don't have yet — see codigos-descripciones.md).
+    const collection = (name, slug, count, blurb, itemDescs, extra) => ({
       name,
       anchor: slug,
       blurb,
+      itemDescs: itemDescs || [],
       images: Array.from({ length: count }, (_, i) =>
         './assets/collares/' + slug + '/' + String(i + 1).padStart(2, '0') + '.jpg'
       ),
       ...extra,
     });
     return [
-      collection('Modelo Frey', 'modelo-frey', 3, 'Macramé tejido a mano con piedra natural en gota y detalles en bronce.'),
-      collection('Joyería', 'joyeria', 14, 'Bijou bañado en dorado, piezas metálicas de líneas simples.'),
-      collection('Modelo Hila', 'modelo-hila', 11, 'Choker de macramé tejido a mano con piedra natural.'),
-      collection('Pulseras', 'pulseras', 9, 'Pulseras de piedras naturales, livianas y ajustables.', { unit: 'pulsera', unitPlural: 'pulseras' }),
-      collection('Modelo Lüm', 'modelo-lum', 8, 'Collar largo de macramé con piedra natural en forma de gota.'),
-      collection('Modelo Trama', 'modelo-trama', 10, 'Macramé tejido en trama tupida, con detalles en bronce.'),
-      collection('Collares de piedras', 'collares-de-piedras', 11, 'Collar de piedras naturales con dije, hecho a mano.'),
-      collection('Varios modelos', 'varios-modelos', 10, 'Diseños variados en macramé, piedra natural y bijou.'),
+      collection('Modelo Frey', 'modelo-frey', 3, 'Macramé tejido a mano con piedra natural.', [
+        'Labradorita, macramé color marrón chocolate, con mostacillas doradas.',
+        'Malaquita verde, macramé color marrón chocolate, con mostacillas doradas.',
+        'Ónix cielo, macramé color marrón chocolate, con mostacillas plateadas.',
+      ]),
+      collection('Joyería', 'joyeria', 14, 'Bijou de bronce, piezas metálicas de líneas simples.'),
+      collection('Modelo Hila', 'modelo-hila', 11, 'Choker de macramé tejido a mano con piedra natural.', [
+        'Malaquita, macramé color marrón chocolate, con mostacillas doradas.',
+        'Ojo de tigre, macramé color marrón chocolate.',
+        'Rodocrosita, macramé color marrón chocolate.',
+        'Labradorita azul, macramé color marrón chocolate, con mostacillas plateadas.',
+        'Amatista, macramé color marrón chocolate, con mostacillas plateadas.',
+        'Malaquita verde, macramé color marrón, con mostacillas doradas.',
+        'Malaquita, macramé color marrón, con mostacillas doradas.',
+        'Ónix blanco, macramé color verde, con mostacillas doradas.',
+        'Obsidiana, macramé color verde.',
+        'Obsidiana dorada, macramé color negro, con mostacillas plateadas.',
+        'Malaquita verde, macramé color crema, con mostacillas doradas.',
+      ]),
+      collection('Pulseras', 'pulseras', 9, 'Pulseras de piedras naturales, livianas y ajustables.', [
+        'Pulsera de piedra natural: jaspe mookaite, con mostacillas plateadas.',
+        'Pulsera de piedra natural: rodocrosita, con mostacillas plateadas.',
+        'Pulsera de piedra natural: jaspe ojo de tigre, con mostacillas doradas.',
+        'Pulsera de macramé color gris, con mostacillas plateadas.',
+        'Pulsera de macramé color marrón chocolate, con mostacillas plateadas.',
+        'Pulsera de macramé con amatista, color negro.',
+        'Pulsera de macramé con labradorita, color gris.',
+        'Pulsera de macramé color marrón chocolate, con mostacillas doradas.',
+        'Pulsera de macramé con ónix cielo, color marrón.',
+      ], { unit: 'pulsera', unitPlural: 'pulseras' }),
+      collection('Modelo Lüm', 'modelo-lum', 8, 'Collar largo de macramé con piedra natural en forma de gota.', [
+        'Ónix cielo, macramé color marrón chocolate, con mostacillas doradas.',
+        'Malaquita verde, macramé color marrón chocolate, con mostacillas doradas.',
+        'Ónix blanco, macramé color verde, con mostacillas doradas.',
+        'Ojo de tigre, macramé color marrón, con mostacillas doradas.',
+        'Malaquita, macramé color marrón, con mostacillas plateadas.',
+        'Rodocrosita, macramé color negro, con mostacillas plateadas.',
+        null,
+        'Labradorita, macramé color marrón chocolate, con mostacillas doradas.',
+      ]),
+      collection('Modelo Trama', 'modelo-trama', 10, 'Macramé tejido en trama tupida.', [
+        'Macramé color marrón, con mostacillas doradas.',
+        'Cuarzo lechoso, macramé color marrón, con mostacillas doradas.',
+        'Macramé color marrón chocolate, con mostacillas doradas.',
+        'Malaquita, macramé color marrón.',
+        'Trinita, macramé color marrón, con mostacillas doradas.',
+        'Malaquita verde, macramé color marrón chocolate, con mostacillas doradas.',
+        'Ónix blanco, macramé color verde, con mostacillas doradas.',
+        'Obsidiana, macramé color negro.',
+        'Amatista, macramé color marrón violetoso, con mostacillas plateadas.',
+        'Amatista mexicana, macramé color marrón chocolate, con mostacillas plateadas.',
+      ]),
+      collection('Collares de piedras', 'collares-de-piedras', 11, 'Collar de piedras naturales, hecho a mano.', [
+        'Ojo de tigre, con dije, mostacillas doradas.',
+        'Lapislázuli, sin dije, mostacillas plateadas.',
+        'Jaspe dragón, sin dije, mostacillas doradas.',
+        'Jaspe dragón y ojo de tigre, con dije, mostacillas doradas.',
+        'Aventurina verde, sin dije, mostacillas plateadas.',
+        'Granate, sin dije, mostacillas doradas.',
+        'Ónix cielo, sin dije, mostacillas plateadas.',
+        'Ojo de tigre, sin dije, mostacillas doradas.',
+        null,
+        'Jaspe mookaite, sin dije, mostacillas plateadas.',
+        null,
+      ]),
+      collection('Modelo Cumbre', 'modelo-cumbre', 3, 'Macramé tejido a mano con piedra natural.', [
+        'Malaquita verde, macramé color marrón chocolate, con mostacillas doradas.',
+        'Ojo de tigre, macramé color marrón chocolate, con mostacillas doradas.',
+        'Turquesa tibetana, macramé color negro, con mostacillas doradas.',
+      ]),
     ];
   }
 
@@ -376,6 +442,7 @@ class Component extends DCLogic {
         products: c.images.slice(0, visibleCount).map((src, i) => ({
           src, alt: c.name + ' ' + (i + 1),
           href: '#product/' + c.anchor + '/' + (i + 1),
+          description: (c.itemDescs && c.itemDescs[i]) || c.blurb,
         })),
       };
     });
@@ -387,7 +454,7 @@ class Component extends DCLogic {
       if (rc && n >= 1 && n <= rc.images.length) {
         detail = {
           name: rc.name,
-          description: rc.blurb,
+          description: (rc.itemDescs && rc.itemDescs[n - 1]) || rc.blurb,
           src: rc.images[n - 1],
           alt: rc.name + ' ' + n,
           backHref: '#' + rc.anchor,
