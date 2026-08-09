@@ -73,11 +73,6 @@
     </div>
   </header>
 
-  <!-- CUSTOM ORDERS NOTE -->
-  <div style="max-width:700px; margin:0 auto; padding:clamp(32px,5vw,52px) clamp(18px,4vw,44px) 0; text-align:center;">
-    <p style="font-weight:300; font-size:14px; line-height:1.7; color:#6b7059; margin:0;">Todas las piezas se pueden <strong style="color:#3a3f2f; font-weight:500;">personalizar</strong> a partir de los modelos existentes — elegí la piedra o el color que más te guste. ¿Buscás algo distinto? <strong style="color:#3a3f2f; font-weight:500;">Consultanos por pedidos especiales</strong> con diseño propio.</p>
-  </div>
-
   <!-- CATALOG -->
   <main style="max-width:1200px; margin:0 auto; padding:0 clamp(18px,4vw,44px) 40px;">
     <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="3">
@@ -200,6 +195,18 @@
     </section>
   </sc-if>
 
+  <!-- PERSONALIZADOS PAGE -->
+  <sc-if value="{{ showCustom }}" hint-placeholder-val="{{ false }}">
+    <section style="max-width:700px; margin:0 auto; padding:calc(82px + clamp(24px,4vw,48px)) clamp(18px,4vw,44px) clamp(60px,8vw,100px); min-height:100vh; text-align:center;">
+      <a href="#top" class="m-back-link" style="display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:#6b7059; margin-bottom:40px;">← Volver al inicio</a>
+      <div style="font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:#9aa085; margin-bottom:12px;">Catálogo</div>
+      <h1 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(32px,5vw,48px); margin:0 0 20px; color:#3a3f2f;">Personalizados</h1>
+      <p style="font-weight:300; font-size:15px; line-height:1.8; color:#6b7059; max-width:520px; margin:0 auto 36px;">Muy pronto vas a poder ver acá todos los colores de hilo, los tipos de piedra disponibles —con sus propiedades— y los colores de mostacillas, para armar tu pieza a medida.</p>
+      <p style="font-weight:300; font-size:14px; line-height:1.7; color:#8a8f78; max-width:480px; margin:0 auto 36px;">Mientras tanto, escribinos y te ayudamos a elegir la combinación perfecta para tu modelo.</p>
+      <a href="https://ig.me/m/by.makra" target="_blank" rel="noopener noreferrer" class="m-btn">Consultar</a>
+    </section>
+  </sc-if>
+
   <!-- FOOTER -->
   <footer style="color:#ffffff; padding:clamp(56px,7vw,80px) 24px 40px; background-color:#5c6e42; background-image:radial-gradient(ellipse 60% 60% at 22% 25%, rgba(140,160,98,0.85), transparent 60%), radial-gradient(ellipse 55% 55% at 78% 30%, rgba(80,100,56,0.9), transparent 55%), radial-gradient(ellipse 50% 70% at 60% 80%, rgba(110,130,80,0.7), transparent 60%), radial-gradient(ellipse 45% 50% at 15% 82%, rgba(74,94,50,0.9), transparent 55%), radial-gradient(ellipse 70% 60% at 90% 88%, rgba(150,168,110,0.5), transparent 60%), linear-gradient(135deg, #667a48, #4e5f38 55%, #5c6e42);">
     <div style="max-width:1080px; margin:0 auto; display:flex; flex-wrap:wrap; gap:40px; justify-content:space-between; align-items:flex-start;">
@@ -226,6 +233,7 @@
           <a href="#joyeria" style="color:#d7dac9; font-size:14px; font-weight:300; padding-left:4px;" style-hover="color:#fff;">Ver colección</a>
           <div style="color:#d7dac9; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.65; margin-top:6px;">Pulseras</div>
           <a href="#pulseras" style="color:#d7dac9; font-size:14px; font-weight:300; padding-left:4px;" style-hover="color:#fff;">Ver colección</a>
+          <a href="#personalizados" style="color:#d7dac9; font-size:14px; font-weight:300; margin-top:6px;" style-hover="color:#fff;">Personalizados</a>
         </div>
       </div>
     </div>
@@ -255,6 +263,7 @@
             </sc-if>
             <a href="#joyeria" onClick="{{ closePanel }}" style="color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px; border-bottom:1px solid transparent; padding:10px 0 2px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">Joyería</a>
             <a href="#pulseras" onClick="{{ closePanel }}" style="color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px; border-bottom:1px solid transparent; padding:10px 0 2px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">Pulseras</a>
+            <a href="#personalizados" onClick="{{ closePanel }}" style="color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px; border-bottom:1px solid transparent; padding:10px 0 2px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">Personalizados</a>
           </nav>
 
           <div style="height:1px; background:#dcdccf; margin:26px 0;"></div>
@@ -312,7 +321,7 @@ const CARE_TEXT = {
 };
 
 class Component extends DCLogic {
-  state = { panelOpen: false, groupOpen: true, careOpen: false, openFaq: 0, scrolled: false, navHover: false, expanded: {}, detail: null, copied: false };
+  state = { panelOpen: false, groupOpen: true, careOpen: false, openFaq: 0, scrolled: false, navHover: false, expanded: {}, detail: null, customPage: false, copied: false };
 
   _legacyCopy(text) {
     const ta = document.createElement('textarea');
@@ -350,12 +359,13 @@ class Component extends DCLogic {
 
     this._onHash = () => {
       const d = parseProductHash();
-      const wasDetail = !!this.state.detail;
-      const isDetail = !!d;
-      this.setState({ detail: d, careOpen: false });
-      if (isDetail && !wasDetail) {
+      const isCustom = window.location.hash === '#personalizados';
+      const wasSpecial = !!this.state.detail || this.state.customPage;
+      const isSpecial = !!d || isCustom;
+      this.setState({ detail: d, customPage: isCustom, careOpen: false });
+      if (isSpecial && !wasSpecial) {
         requestAnimationFrame(() => window.scrollTo(0, 0));
-      } else if (!isDetail && wasDetail) {
+      } else if (!isSpecial && wasSpecial) {
         const anchor = (window.location.hash || '').slice(1);
         requestAnimationFrame(() => {
           const el = anchor && document.getElementById(anchor);
@@ -393,10 +403,10 @@ class Component extends DCLogic {
         'Malaquita verde, macramé color marrón chocolate, con mostacillas doradas.',
         'Ónix cielo, macramé color marrón chocolate, con mostacillas plateadas.',
       ], { price: 35000 }),
-      collection('Joyería', 'joyeria', 14, 'Bijou de bronce, piezas metálicas de líneas simples.', null, {
+      collection('Joyería', 'joyeria', 8, 'Pieza de bronce elaborada artesanalmente.', null, {
         material: 'bronce',
-        // Precios por pieza (posición = orden alfabético de archivo); null = sin precio dado todavía.
-        itemPrices: [26000, null, 45000, 55000, null, 37000, 48000, null, 15000, 33000, null, null, null, 60000],
+        // Precios por pieza (posición = orden alfabético de archivo).
+        itemPrices: [26000, 45000, 55000, 37000, 48000, 15000, 33000, 60000],
       }),
       collection('Modelo Hila', 'modelo-hila', 11, 'Choker de macramé tejido a mano con piedra natural.', [
         'Malaquita, macramé color marrón chocolate, con mostacillas doradas.',
@@ -545,14 +555,16 @@ class Component extends DCLogic {
     return {
       categories, macrameCats, testimonials, faqs,
       firstAnchor: categories.length ? categories[0].anchor : 'top',
-      detail, showDetail: !!detail, showCatalog: !detail,
+      detail, showDetail: !!detail,
+      showCustom: !!this.state.customPage,
+      showCatalog: !detail && !this.state.customPage,
       copyLink: () => this.copyLink(),
       copyLabel: this.state.copied ? '✓ Copiado' : 'Copiar link',
       copyBtnStyle: this.state.copied ? 'background:#6d7a54; border-color:#6d7a54; color:#ffffff;' : '',
       careOpen: this.state.careOpen,
       careSign: this.state.careOpen ? '–' : '+',
       toggleCare: () => this.setState(s => ({ careOpen: !s.careOpen })),
-      navClass: (!!detail || this.state.panelOpen || this.state.scrolled || this.state.navHover) ? 'solid' : '',
+      navClass: (!!detail || this.state.customPage || this.state.panelOpen || this.state.scrolled || this.state.navHover) ? 'solid' : '',
       navEnter: () => this.setState({ navHover: true }),
       navLeave: () => this.setState({ navHover: false }),
       panelOpen: this.state.panelOpen,
