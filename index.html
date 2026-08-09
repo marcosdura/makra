@@ -164,7 +164,7 @@
             <span style="font-family:'Cormorant Garamond',serif; font-size:24px; color:#5a6146; white-space:nowrap;">{{ detail.priceLabel }}</span>
           </div>
           <p style="font-weight:300; font-size:15px; line-height:1.75; color:#6b7059; margin:0 0 14px; max-width:420px;">{{ detail.description }}</p>
-          <p style="font-weight:300; font-size:12.5px; line-height:1.6; color:#9aa085; margin:0 0 30px; max-width:420px;">Esta pieza se puede personalizar (piedra, color de hilo). ¿Buscás otro modelo? Consultanos por pedidos especiales.</p>
+          <p style="font-weight:300; font-size:12.5px; line-height:1.6; color:#9aa085; margin:0 0 30px; max-width:420px;">Esta pieza se puede personalizar (piedra, color de hilo). <a href="#personalizados" style="color:#5a6146; text-decoration:underline; text-underline-offset:2px;">Ver opciones de personalización</a>.</p>
           <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:8px;">
             <a href="https://ig.me/m/by.makra" target="_blank" rel="noopener noreferrer" class="m-btn">Consultar</a>
             <button class="m-btn" onClick="{{ copyLink }}" style="{{ copyBtnStyle }}">{{ copyLabel }}</button>
@@ -197,13 +197,33 @@
 
   <!-- PERSONALIZADOS PAGE -->
   <sc-if value="{{ showCustom }}" hint-placeholder-val="{{ false }}">
-    <section style="max-width:700px; margin:0 auto; padding:calc(82px + clamp(24px,4vw,48px)) clamp(18px,4vw,44px) clamp(60px,8vw,100px); min-height:100vh; text-align:center;">
+    <section style="max-width:1100px; margin:0 auto; padding:calc(82px + clamp(24px,4vw,48px)) clamp(18px,4vw,44px) clamp(60px,8vw,100px);">
       <a href="#top" class="m-back-link" style="display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:#6b7059; margin-bottom:40px;">← Volver al inicio</a>
-      <div style="font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:#9aa085; margin-bottom:12px;">Catálogo</div>
-      <h1 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(32px,5vw,48px); margin:0 0 20px; color:#3a3f2f;">Personalizados</h1>
-      <p style="font-weight:300; font-size:15px; line-height:1.8; color:#6b7059; max-width:520px; margin:0 auto 36px;">Muy pronto vas a poder ver acá todos los colores de hilo, los tipos de piedra disponibles —con sus propiedades— y los colores de mostacillas, para armar tu pieza a medida.</p>
-      <p style="font-weight:300; font-size:14px; line-height:1.7; color:#8a8f78; max-width:480px; margin:0 auto 36px;">Mientras tanto, escribinos y te ayudamos a elegir la combinación perfecta para tu modelo.</p>
-      <a href="https://ig.me/m/by.makra" target="_blank" rel="noopener noreferrer" class="m-btn">Consultar</a>
+      <div style="text-align:center; max-width:620px; margin:0 auto clamp(40px,6vw,64px);">
+        <div style="font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:#9aa085; margin-bottom:12px;">Catálogo</div>
+        <h1 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(32px,5vw,48px); margin:0 0 20px; color:#3a3f2f;">Personalizados</h1>
+        <p style="font-weight:300; font-size:15px; line-height:1.8; color:#6b7059; margin:0;">Elegí la piedra para tu pieza a medida — cada modelo se puede personalizar con cualquiera de estas opciones. Muy pronto sumamos también los colores de hilo y de mostacillas disponibles.</p>
+      </div>
+
+      <div style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(24px,3vw,30px); color:#3a3f2f; margin:0 0 22px; text-align:left;">Piedras</div>
+      <div class="m-catalog-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:clamp(16px,2.2vw,28px); margin-bottom:clamp(48px,7vw,72px);">
+        <sc-for list="{{ stones }}" as="s" hint-placeholder-count="12">
+          <div style="display:flex; flex-direction:column;">
+            <div style="position:relative; aspect-ratio:1/1; background:#e7e6db; border-radius:14px; overflow:hidden;">
+              <img src="{{ s.src }}" alt="{{ s.name }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
+            </div>
+            <div style="padding:12px 4px 0; text-align:left;">
+              <h3 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:18px; margin:0; color:#3a3f2f;">{{ s.name }}</h3>
+              <p style="font-weight:300; font-size:12.5px; line-height:1.5; color:#8a8f78; margin:5px 0 0;">{{ s.note }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="text-align:center;">
+        <p style="font-weight:300; font-size:14px; line-height:1.7; color:#8a8f78; max-width:480px; margin:0 auto 28px;">¿Ya elegiste tu combinación? Escribinos y coordinamos los detalles.</p>
+        <a href="https://ig.me/m/by.makra" target="_blank" rel="noopener noreferrer" class="m-btn">Consultar</a>
+      </div>
     </section>
   </sc-if>
 
@@ -360,12 +380,16 @@ class Component extends DCLogic {
     this._onHash = () => {
       const d = parseProductHash();
       const isCustom = window.location.hash === '#personalizados';
-      const wasSpecial = !!this.state.detail || this.state.customPage;
-      const isSpecial = !!d || isCustom;
+      // A "special" full-page view (product detail or the Personalizados
+      // page) — keyed so switching between two DIFFERENT special views
+      // (e.g. detail → Personalizados) also resets scroll, not just
+      // entering one from the normal catalog.
+      const prevKey = this.state.detail ? ('p:' + this.state.detail.anchor + '/' + this.state.detail.n) : (this.state.customPage ? 'custom' : null);
+      const nextKey = d ? ('p:' + d.anchor + '/' + d.n) : (isCustom ? 'custom' : null);
       this.setState({ detail: d, customPage: isCustom, careOpen: false });
-      if (isSpecial && !wasSpecial) {
+      if (nextKey && nextKey !== prevKey) {
         requestAnimationFrame(() => window.scrollTo(0, 0));
-      } else if (!isSpecial && wasSpecial) {
+      } else if (!nextKey && prevKey) {
         const anchor = (window.location.hash || '').slice(1);
         requestAnimationFrame(() => {
           const el = anchor && document.getElementById(anchor);
@@ -380,6 +404,24 @@ class Component extends DCLogic {
     window.removeEventListener('scroll', this._onScroll);
     window.removeEventListener('hashchange', this._onHash);
     clearTimeout(this._copyTimer);
+  }
+
+  buildStones() {
+    const stone = (name, slug, note) => ({ name, src: './assets/piedras/' + slug + '.jpg', note });
+    return [
+      stone('Amatista', 'amatista', 'Cuarzo violeta asociado a la calma y la claridad mental.'),
+      stone('Cuarzo rosa', 'cuarzo-rosa', 'La piedra del amor propio; se vincula a la ternura y el equilibrio emocional.'),
+      stone('Labradorita', 'labradorita', 'De destellos azules y verdes; asociada a la intuición y la protección energética.'),
+      stone('Lapislázuli', 'lapislazuli', 'Azul profundo con vetas doradas. Vinculada a la sabiduría y la expresión personal.'),
+      stone('Apatito', 'apatito', 'Tono celeste intenso, relacionado con la claridad mental y la motivación.'),
+      stone('Malaquita', 'malaquita', 'Verde de bandas características; asociada a la transformación y la protección.'),
+      stone('Turquesa tibetana', 'turquesa-tibetana', 'Tono verdeazulado con vetas naturales, vinculada a la protección y la buena fortuna.'),
+      stone('Aventurina', 'aventurina', 'Cuarzo verde asociado a la suerte, la prosperidad y la calma.'),
+      stone('Ojo de tigre', 'ojo-de-tigre', 'Dorada y de brillo sedoso; se la relaciona con la confianza y la fuerza de voluntad.'),
+      stone('Rodocrosita', 'rodocrosita', 'Rosa con vetas blancas, asociada al amor propio y la sanación emocional.'),
+      stone('Ónix cielo', 'onix-cielo', 'Variedad de ágata en tonos azulados; vinculada a la calma y el equilibrio.'),
+      stone('Cuarzo lechoso', 'cuarzo-lechoso', 'Blanco translúcido, considerado un amplificador de energía suave.'),
+    ];
   }
 
   buildCategories() {
@@ -494,9 +536,20 @@ class Component extends DCLogic {
         countLabel: total === 1 ? '1 ' + unit : total + ' ' + unitPlural,
         hasMore: total > ROW,
         toggleLabel: isExpanded ? 'Ver menos' : 'Ver más (+' + (total - ROW) + ')',
-        toggle: () => this.setState(s => ({
-          expanded: { ...(s.expanded || {}), [c.anchor]: !isExpanded },
-        })),
+        toggle: () => {
+          const willExpand = !isExpanded;
+          this.setState(s => ({
+            expanded: { ...(s.expanded || {}), [c.anchor]: willExpand },
+          }));
+          if (!willExpand) {
+            // Collapsing — jump back to the top of this section instead of
+            // leaving the user stranded at their old scroll position.
+            requestAnimationFrame(() => {
+              const el = document.getElementById(c.anchor);
+              if (el) el.scrollIntoView();
+            });
+          }
+        },
         products: c.images.slice(0, visibleCount).map((src, i) => {
           const price = priceOf(c, i);
           return {
@@ -554,6 +607,7 @@ class Component extends DCLogic {
 
     return {
       categories, macrameCats, testimonials, faqs,
+      stones: this.buildStones(),
       firstAnchor: categories.length ? categories[0].anchor : 'top',
       detail, showDetail: !!detail,
       showCustom: !!this.state.customPage,
