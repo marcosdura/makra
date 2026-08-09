@@ -27,11 +27,6 @@
   nav.makra-nav.solid { background-color: #6b7d4c !important; background-image: radial-gradient(ellipse 60% 80% at 22% 40%, rgba(146,166,104,0.9), transparent 60%), radial-gradient(ellipse 55% 80% at 78% 50%, rgba(92,112,66,0.92), transparent 55%), radial-gradient(ellipse 50% 90% at 60% 60%, rgba(122,142,88,0.75), transparent 60%), radial-gradient(ellipse 45% 80% at 15% 70%, rgba(84,104,58,0.88), transparent 55%), radial-gradient(ellipse 70% 90% at 90% 55%, rgba(158,176,116,0.6), transparent 60%), linear-gradient(135deg, #74855a, #5c6e42 55%, #6b7d4c) !important; color: #ffffff !important; box-shadow: 0 1px 0 rgba(0,0,0,0.08); }
   nav.makra-nav.solid a, nav.makra-nav.solid button, nav.makra-nav.solid .m-logo, nav.makra-nav.solid .m-sub { color: #ffffff !important; }
   nav.makra-nav.solid .m-underline { border-bottom-color: rgba(255,255,255,0.35) !important; }
-  .m-nav-burger { display: none; }
-  @media (max-width: 720px) {
-    .m-nav-desktop { display: none !important; }
-    .m-nav-burger { display: flex !important; }
-  }
   @media (max-width: 640px) {
     .m-catalog-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 14px !important; }
   }
@@ -54,24 +49,17 @@
   <!-- NAVBAR -->
   <nav class="makra-nav {{ navClass }}" onMouseEnter="{{ navEnter }}" onMouseLeave="{{ navLeave }}" style="position:fixed; top:0; left:0; right:0; z-index:40; height:82px; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; padding:0 clamp(18px,4vw,52px); background:transparent; color:#ffffff;">
     <div style="justify-self:start;">
-      <button class="m-nav-desktop" onClick="{{ openContact }}" style="display:flex; align-items:center; gap:9px; background:none; border:none; color:#ffffff; font-family:'Jost',sans-serif; font-size:12px; letter-spacing:0.22em; text-transform:uppercase; cursor:pointer; padding:8px 2px; transition:opacity 0.25s;" style-hover="opacity:0.6;">
-        <span class="m-underline" style="border-bottom:1px solid rgba(244,242,234,0.35); padding-bottom:2px;">Contáctanos</span>
+      <button onClick="{{ openMenu }}" aria-label="Menú" style="display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; background:none; border:none; cursor:pointer; padding:10px 4px; transition:opacity 0.25s;" style-hover="opacity:0.6;">
+        <span style="display:block; width:24px; height:1px; background:#ffffff;"></span>
+        <span style="display:block; width:24px; height:1px; background:#ffffff;"></span>
+        <span style="display:block; width:24px; height:1px; background:#ffffff;"></span>
       </button>
     </div>
     <a href="#top" style="justify-self:center; text-align:center; color:#ffffff; transition:opacity 0.25s;" style-hover="opacity:0.6;">
       <div class="m-logo" style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:36px; letter-spacing:0.18em; line-height:1; padding-left:0.18em;">MÄKRA</div>
       <div class="m-sub" style="font-family:'Jost',sans-serif; font-weight:300; font-size:10.5px; letter-spacing:0.44em; margin-top:5px; padding-left:0.44em; opacity:0.85;">HANDMADE</div>
     </a>
-    <div style="justify-self:end;">
-      <button class="m-nav-desktop" onClick="{{ openCatalog }}" style="display:flex; align-items:center; gap:12px; background:none; border:none; color:#ffffff; font-family:'Jost',sans-serif; font-size:12px; letter-spacing:0.22em; text-transform:uppercase; cursor:pointer; padding:8px 2px; transition:opacity 0.25s;" style-hover="opacity:0.6;">
-        <span class="m-underline" style="border-bottom:1px solid rgba(244,242,234,0.35); padding-bottom:2px;">Catálogo</span>
-      </button>
-      <button class="m-nav-burger" onClick="{{ openMenu }}" aria-label="Menú" style="flex-direction:column; align-items:center; justify-content:center; gap:5px; background:none; border:none; cursor:pointer; padding:10px 4px; transition:opacity 0.25s;" style-hover="opacity:0.6;">
-        <span style="display:block; width:24px; height:1px; background:#ffffff;"></span>
-        <span style="display:block; width:24px; height:1px; background:#ffffff;"></span>
-        <span style="display:block; width:24px; height:1px; background:#ffffff;"></span>
-      </button>
-    </div>
+    <div style="justify-self:end;"></div>
   </nav>
 
   <sc-if value="{{ showCatalog }}" hint-placeholder-val="{{ true }}">
@@ -84,6 +72,11 @@
       <a href="#{{ firstAnchor }}" style="display:inline-block; color:#ffffff; font-family:'Jost',sans-serif; font-size:11px; letter-spacing:0.4em; text-transform:uppercase; border-bottom:1px solid rgba(255,255,255,0.7); padding-bottom:5px; transition:opacity 0.25s;" style-hover="opacity:0.6;">Descubrí la colección</a>
     </div>
   </header>
+
+  <!-- CUSTOM ORDERS NOTE -->
+  <div style="max-width:700px; margin:0 auto; padding:clamp(32px,5vw,52px) clamp(18px,4vw,44px) 0; text-align:center;">
+    <p style="font-weight:300; font-size:14px; line-height:1.7; color:#6b7059; margin:0;">Todas las piezas se pueden <strong style="color:#3a3f2f; font-weight:500;">personalizar</strong> a partir de los modelos existentes — elegí la piedra o el color que más te guste. ¿Buscás algo distinto? <strong style="color:#3a3f2f; font-weight:500;">Consultanos por pedidos especiales</strong> con diseño propio.</p>
+  </div>
 
   <!-- CATALOG -->
   <main style="max-width:1200px; margin:0 auto; padding:0 clamp(18px,4vw,44px) 40px;">
@@ -105,7 +98,7 @@
               <div style="padding:14px 10px 6px;">
                 <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px;">
                   <h3 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:20px; margin:0; color:#3a3f2f;">{{ cat.name }}</h3>
-                  <span style="font-family:'Cormorant Garamond',serif; font-size:17px; color:#5a6146; white-space:nowrap; flex:none;">{{ cat.priceLabel }}</span>
+                  <span style="font-family:'Cormorant Garamond',serif; font-size:17px; color:#5a6146; white-space:nowrap; flex:none;">{{ p.priceLabel }}</span>
                 </div>
                 <p style="font-weight:300; font-size:13px; line-height:1.5; color:#8a8f78; margin:6px 0 0;">{{ p.description }}</p>
               </div>
@@ -122,7 +115,7 @@
   </main>
 
   <!-- TESTIMONIALS -->
-  <section style="color:#ffffff; padding:clamp(60px,9vw,110px) 24px; background-color:#6b7d4c; background-image:radial-gradient(ellipse 60% 50% at 22% 25%, rgba(146,166,104,0.9), transparent 60%), radial-gradient(ellipse 55% 45% at 78% 30%, rgba(92,112,66,0.92), transparent 55%), radial-gradient(ellipse 50% 60% at 60% 78%, rgba(122,142,88,0.75), transparent 60%), radial-gradient(ellipse 45% 40% at 15% 80%, rgba(84,104,58,0.88), transparent 55%), radial-gradient(ellipse 70% 55% at 90% 85%, rgba(158,176,116,0.6), transparent 60%), radial-gradient(ellipse 40% 35% at 45% 15%, rgba(168,184,122,0.55), transparent 55%), linear-gradient(135deg, #74855a, #5c6e42 55%, #6b7d4c);">
+  <section id="testimonios" style="scroll-margin-top:82px; color:#ffffff; padding:clamp(60px,9vw,110px) 24px; background-color:#6b7d4c; background-image:radial-gradient(ellipse 60% 50% at 22% 25%, rgba(146,166,104,0.9), transparent 60%), radial-gradient(ellipse 55% 45% at 78% 30%, rgba(92,112,66,0.92), transparent 55%), radial-gradient(ellipse 50% 60% at 60% 78%, rgba(122,142,88,0.75), transparent 60%), radial-gradient(ellipse 45% 40% at 15% 80%, rgba(84,104,58,0.88), transparent 55%), radial-gradient(ellipse 70% 55% at 90% 85%, rgba(158,176,116,0.6), transparent 60%), radial-gradient(ellipse 40% 35% at 45% 15%, rgba(168,184,122,0.55), transparent 55%), linear-gradient(135deg, #74855a, #5c6e42 55%, #6b7d4c);">
     <div style="max-width:1080px; margin:0 auto; text-align:center;">
       <div style="font-size:11px; letter-spacing:0.34em; text-transform:uppercase; opacity:0.8; margin-bottom:14px;">Lo que dicen</div>
       <h2 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(28px,4vw,44px); margin:0 0 clamp(40px,6vw,64px);">Nuestras clientas</h2>
@@ -139,7 +132,7 @@
   </section>
 
   <!-- FAQ -->
-  <section style="max-width:760px; margin:0 auto; padding:clamp(60px,9vw,110px) 24px;">
+  <section id="faq" style="scroll-margin-top:82px; max-width:760px; margin:0 auto; padding:clamp(60px,9vw,110px) 24px;">
     <div style="text-align:center; margin-bottom:clamp(34px,5vw,54px);">
       <div style="font-size:11px; letter-spacing:0.34em; text-transform:uppercase; color:#9aa085; margin-bottom:12px;">Ayuda</div>
       <h2 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(30px,4.5vw,46px); margin:0; color:#3a3f2f;">Preguntas frecuentes</h2>
@@ -171,11 +164,36 @@
         </div>
         <div style="padding-top:clamp(6px,2vw,26px);">
           <div style="font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:#9aa085; margin-bottom:10px;">Colección</div>
-          <h1 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(30px,4vw,44px); margin:0 0 16px; color:#3a3f2f;">{{ detail.name }}</h1>
-          <p style="font-weight:300; font-size:15px; line-height:1.75; color:#6b7059; margin:0 0 32px; max-width:420px;">{{ detail.description }}</p>
-          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <div style="display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:16px;">
+            <h1 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(30px,4vw,44px); margin:0; color:#3a3f2f;">{{ detail.name }}</h1>
+            <span style="font-family:'Cormorant Garamond',serif; font-size:24px; color:#5a6146; white-space:nowrap;">{{ detail.priceLabel }}</span>
+          </div>
+          <p style="font-weight:300; font-size:15px; line-height:1.75; color:#6b7059; margin:0 0 14px; max-width:420px;">{{ detail.description }}</p>
+          <p style="font-weight:300; font-size:12.5px; line-height:1.6; color:#9aa085; margin:0 0 30px; max-width:420px;">Esta pieza se puede personalizar (piedra, color de hilo). ¿Buscás otro modelo? Consultanos por pedidos especiales.</p>
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:8px;">
             <a href="https://ig.me/m/by.makra" target="_blank" rel="noopener noreferrer" class="m-btn">Consultar</a>
             <button class="m-btn" onClick="{{ copyLink }}" style="{{ copyBtnStyle }}">{{ copyLabel }}</button>
+          </div>
+
+          <!-- CUIDADOS (accordion) -->
+          <div style="border-top:1px solid #dcdccf; margin-top:22px; max-width:420px;">
+            <button onClick="{{ toggleCare }}" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:20px; background:none; border:none; text-align:left; cursor:pointer; padding:18px 0; font-family:'Jost',sans-serif; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:#5a6146;">
+              <span>{{ detail.careTitle }}</span>
+              <span style="font-family:'Jost',sans-serif; font-size:20px; font-weight:300; color:#8f9578; flex:none;">{{ careSign }}</span>
+            </button>
+            <sc-if value="{{ careOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:0 0 24px;">
+                <p style="margin:0 0 12px; font-weight:300; font-size:13.5px; line-height:1.65; color:#6b7059;">{{ detail.careIntro }}</p>
+                <ul style="margin:0; padding-left:18px;">
+                  <sc-for list="{{ detail.careItems }}" as="ci" hint-placeholder-count="5">
+                    <li style="margin-bottom:7px; font-weight:300; font-size:13.5px; line-height:1.6; color:#6b7059;">{{ ci }}</li>
+                  </sc-for>
+                </ul>
+                <sc-if value="{{ detail.careOutro }}" hint-placeholder-val="{{ false }}">
+                  <p style="margin:14px 0 0; font-weight:300; font-size:13.5px; line-height:1.65; color:#6b7059;">{{ detail.careOutro }}</p>
+                </sc-if>
+              </div>
+            </sc-if>
           </div>
         </div>
       </div>
@@ -199,64 +217,61 @@
       </div>
       <div>
         <div style="font-size:11px; letter-spacing:0.26em; text-transform:uppercase; opacity:0.6; margin-bottom:16px;">Catálogo</div>
-        <div style="display:flex; flex-direction:column; gap:12px;">
-          <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="5">
-            <a href="#{{ cat.anchor }}" style="color:#d7dac9; font-size:14px; font-weight:300;" style-hover="color:#fff;">{{ cat.name }}</a>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="color:#d7dac9; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.65; margin-top:2px;">Collares macramé</div>
+          <sc-for list="{{ macrameCats }}" as="cat" hint-placeholder-count="6">
+            <a href="#{{ cat.anchor }}" style="color:#d7dac9; font-size:14px; font-weight:300; padding-left:4px;" style-hover="color:#fff;">{{ cat.name }}</a>
           </sc-for>
+          <div style="color:#d7dac9; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.65; margin-top:6px;">Joyería</div>
+          <a href="#joyeria" style="color:#d7dac9; font-size:14px; font-weight:300; padding-left:4px;" style-hover="color:#fff;">Ver colección</a>
+          <div style="color:#d7dac9; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; opacity:0.65; margin-top:6px;">Pulseras</div>
+          <a href="#pulseras" style="color:#d7dac9; font-size:14px; font-weight:300; padding-left:4px;" style-hover="color:#fff;">Ver colección</a>
         </div>
       </div>
     </div>
     <div style="max-width:1080px; margin:48px auto 0; padding-top:24px; border-top:1px solid rgba(215,218,201,0.15); font-size:11px; letter-spacing:0.1em; opacity:0.5;">© 2026 MÄKRA Handmade · Hecho a mano con dedicación</div>
   </footer>
 
-  <!-- SIDE PANEL SCRIM + DRAWER -->
+  <!-- SIDE PANEL SCRIM + DRAWER (single unified menu) -->
   <sc-if value="{{ panelOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed; inset:0; z-index:50;">
       <div onClick="{{ closePanel }}" style="position:absolute; inset:0; background:rgba(30,34,24,0.5); backdrop-filter:blur(2px); animation:fadeScrim 0.3s ease both;"></div>
-      <aside style="position:absolute; top:0; bottom:0; width:min(440px,90vw); background:#ffffff; overflow-y:auto; {{ panelSide }}">
-        <button onClick="{{ closePanel }}" style="position:absolute; top:22px; {{ closeSide }} width:42px; height:42px; border-radius:50%; background:none; border:none; color:#3a3f2f; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:opacity 0.25s;" style-hover="opacity:0.5;">✕</button>
+      <aside style="position:absolute; top:0; bottom:0; left:0; width:min(440px,90vw); background:#ffffff; overflow-y:auto; box-shadow:20px 0 60px rgba(0,0,0,0.2); animation:slideInLeft 0.4s cubic-bezier(0.22,1,0.36,1) both;">
+        <button onClick="{{ closePanel }}" style="position:absolute; top:22px; right:22px; width:42px; height:42px; border-radius:50%; background:none; border:none; color:#3a3f2f; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:opacity 0.25s;" style-hover="opacity:0.5;">✕</button>
 
-        <!-- CONTACT PANEL -->
-        <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
-          <div style="padding:88px clamp(28px,7vw,48px) 48px;">
-            <h2 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:29px; letter-spacing:0.02em; margin:0 0 30px; color:#3a3f2f;">Contáctanos</h2>
-            <div style="display:flex; flex-direction:column; gap:20px;">
-              <a href="https://www.instagram.com/by.makra/" target="_blank" style="align-self:flex-start; color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px; border-bottom:1px solid transparent; padding-bottom:3px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">Instagram</a>
-              <a href="https://www.tiktok.com/@by.makra" target="_blank" style="align-self:flex-start; color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px; border-bottom:1px solid transparent; padding-bottom:3px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">TikTok</a>
-            </div>
-          </div>
-        </sc-if>
+        <div style="padding:88px clamp(28px,7vw,48px) 48px;">
+          <div style="font-size:11px; letter-spacing:0.26em; text-transform:uppercase; color:#9aa085; margin-bottom:16px;">Catálogo</div>
+          <nav style="display:flex; flex-direction:column; align-items:flex-start;">
+            <button onClick="{{ toggleGroup }}" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; background:none; border:none; text-align:left; cursor:pointer; padding:6px 0; color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px;">
+              <span>Collares macramé</span>
+              <span style="font-family:'Jost',sans-serif; font-size:18px; font-weight:300; color:#8f9578; flex:none;">{{ groupSign }}</span>
+            </button>
+            <sc-if value="{{ groupOpen }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex; flex-direction:column; align-items:flex-start; gap:12px; padding:10px 0 10px 16px;">
+                <sc-for list="{{ macrameCats }}" as="cat" hint-placeholder-count="6">
+                  <a href="#{{ cat.anchor }}" onClick="{{ closePanel }}" style="color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:19px; border-bottom:1px solid transparent; padding-bottom:2px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">{{ cat.name }}</a>
+                </sc-for>
+              </div>
+            </sc-if>
+            <a href="#joyeria" onClick="{{ closePanel }}" style="color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px; border-bottom:1px solid transparent; padding:10px 0 2px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">Joyería</a>
+            <a href="#pulseras" onClick="{{ closePanel }}" style="color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px; border-bottom:1px solid transparent; padding:10px 0 2px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">Pulseras</a>
+          </nav>
 
-        <!-- CATALOG PANEL -->
-        <sc-if value="{{ isCatalog }}" hint-placeholder-val="{{ false }}">
-          <div style="padding:88px clamp(28px,7vw,48px) 48px;">
-            <h2 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:29px; letter-spacing:0.02em; margin:0 0 30px; color:#3a3f2f;">Catálogo</h2>
-            <nav style="display:flex; flex-direction:column; gap:14px; align-items:flex-start;">
-              <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="5">
-                <a href="#{{ cat.anchor }}" onClick="{{ closePanel }}" style="color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px; border-bottom:1px solid transparent; padding-bottom:3px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">{{ cat.name }}</a>
-              </sc-for>
-            </nav>
-            <button class="m-btn" onClick="{{ openContact }}" style="margin-top:34px; width:100%;">Contáctanos</button>
-          </div>
-        </sc-if>
+          <div style="height:1px; background:#dcdccf; margin:26px 0;"></div>
 
-        <!-- MOBILE MENU PANEL (catalog + contact combined) -->
-        <sc-if value="{{ isMenu }}" hint-placeholder-val="{{ false }}">
-          <div style="padding:88px clamp(28px,7vw,48px) 48px;">
-            <h2 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:29px; letter-spacing:0.02em; margin:0 0 30px; color:#3a3f2f;">Catálogo</h2>
-            <nav style="display:flex; flex-direction:column; gap:14px; align-items:flex-start;">
-              <sc-for list="{{ categories }}" as="cat" hint-placeholder-count="5">
-                <a href="#{{ cat.anchor }}" onClick="{{ closePanel }}" style="color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px; border-bottom:1px solid transparent; padding-bottom:3px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">{{ cat.name }}</a>
-              </sc-for>
-            </nav>
-            <div style="height:1px; background:#dcdccf; margin:30px 0;"></div>
-            <h2 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:29px; letter-spacing:0.02em; margin:0 0 30px; color:#3a3f2f;">Contáctanos</h2>
-            <div style="display:flex; flex-direction:column; gap:20px;">
-              <a href="https://www.instagram.com/by.makra/" target="_blank" style="align-self:flex-start; color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px; border-bottom:1px solid transparent; padding-bottom:3px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">Instagram</a>
-              <a href="https://www.tiktok.com/@by.makra" target="_blank" style="align-self:flex-start; color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px; border-bottom:1px solid transparent; padding-bottom:3px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">TikTok</a>
-            </div>
+          <nav style="display:flex; flex-direction:column; gap:12px; align-items:flex-start;">
+            <a href="#testimonios" onClick="{{ closePanel }}" style="color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px; border-bottom:1px solid transparent; padding-bottom:2px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">Opiniones</a>
+            <a href="#faq" onClick="{{ closePanel }}" style="color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px; border-bottom:1px solid transparent; padding-bottom:2px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">Preguntas frecuentes</a>
+          </nav>
+
+          <div style="height:1px; background:#dcdccf; margin:26px 0;"></div>
+
+          <div style="font-size:11px; letter-spacing:0.26em; text-transform:uppercase; color:#9aa085; margin-bottom:16px;">Contacto</div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <a href="https://www.instagram.com/by.makra/" target="_blank" style="align-self:flex-start; color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px; border-bottom:1px solid transparent; padding-bottom:2px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">Instagram</a>
+            <a href="https://www.tiktok.com/@by.makra" target="_blank" style="align-self:flex-start; color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:21px; border-bottom:1px solid transparent; padding-bottom:2px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">TikTok</a>
           </div>
-        </sc-if>
+        </div>
       </aside>
     </div>
   </sc-if>
@@ -269,8 +284,35 @@ function parseProductHash() {
   return m ? { anchor: m[1], n: parseInt(m[2], 10) } : null;
 }
 
+const CARE_TEXT = {
+  macrame: {
+    title: 'Cuidados · Macramé',
+    intro: 'Nuestros collares están realizados artesanalmente con hilo encerado y piedras naturales. Para conservarlos lindos por mucho tiempo, te recomendamos:',
+    items: [
+      'Evitá el contacto con agua — sacátelo antes de bañarte, nadar o hacer ejercicio.',
+      'Evitá perfumes, cremas y aceites directamente sobre el collar, ya que pueden afectar el hilo y las piedras.',
+      'Guardalo seco y protegido, preferentemente separado de otras piezas para evitar que se enganche o roce.',
+      'Evitá tirones o enganches que puedan deformar o dañar el tejido.',
+      'Limpiá las piedras suavemente con un paño seco y suave cuando sea necesario.',
+    ],
+    outro: '',
+  },
+  bronce: {
+    title: 'Cuidados · Bronce',
+    intro: 'El bronce es un material vivo que puede cambiar de color y perder brillo con el paso del tiempo. Este proceso es natural y forma parte de la identidad de cada pieza. Para cuidar tus piezas Mäkra:',
+    items: [
+      'Evitá el contacto con agua, especialmente agua de mar y piscina.',
+      'Sacate la pieza antes de bañarte o hacer ejercicio.',
+      'Evitá perfumes, cremas, aceites y productos químicos directamente sobre el bronce.',
+      'Guardala en un lugar seco, idealmente dentro de su bolsita y protegida de la humedad.',
+      'Para recuperar su brillo, podés limpiarla suavemente con un paño específico para metales.',
+    ],
+    outro: 'Con el uso, el bronce puede adquirir una tonalidad más oscura o diferente. Esto es completamente natural y hace que cada pieza vaya tomando su propia personalidad. ✨',
+  },
+};
+
 class Component extends DCLogic {
-  state = { panel: null, openFaq: 0, scrolled: false, navHover: false, expanded: {}, detail: null, copied: false };
+  state = { panelOpen: false, groupOpen: true, careOpen: false, openFaq: 0, scrolled: false, navHover: false, expanded: {}, detail: null, copied: false };
 
   _legacyCopy(text) {
     const ta = document.createElement('textarea');
@@ -310,7 +352,7 @@ class Component extends DCLogic {
       const d = parseProductHash();
       const wasDetail = !!this.state.detail;
       const isDetail = !!d;
-      this.setState({ detail: d });
+      this.setState({ detail: d, careOpen: false });
       if (isDetail && !wasDetail) {
         requestAnimationFrame(() => window.scrollTo(0, 0));
       } else if (!isDetail && wasDetail) {
@@ -339,6 +381,7 @@ class Component extends DCLogic {
       anchor: slug,
       blurb,
       itemDescs: itemDescs || [],
+      material: (extra && extra.material) || 'macrame',
       images: Array.from({ length: count }, (_, i) =>
         './assets/collares/' + slug + '/' + String(i + 1).padStart(2, '0') + '.jpg'
       ),
@@ -349,8 +392,12 @@ class Component extends DCLogic {
         'Labradorita, macramé color marrón chocolate, con mostacillas doradas.',
         'Malaquita verde, macramé color marrón chocolate, con mostacillas doradas.',
         'Ónix cielo, macramé color marrón chocolate, con mostacillas plateadas.',
-      ]),
-      collection('Joyería', 'joyeria', 14, 'Bijou de bronce, piezas metálicas de líneas simples.'),
+      ], { price: 35000 }),
+      collection('Joyería', 'joyeria', 14, 'Bijou de bronce, piezas metálicas de líneas simples.', null, {
+        material: 'bronce',
+        // Precios por pieza (posición = orden alfabético de archivo); null = sin precio dado todavía.
+        itemPrices: [26000, null, 45000, 55000, null, 37000, 48000, null, 15000, 33000, null, null, null, 60000],
+      }),
       collection('Modelo Hila', 'modelo-hila', 11, 'Choker de macramé tejido a mano con piedra natural.', [
         'Malaquita, macramé color marrón chocolate, con mostacillas doradas.',
         'Ojo de tigre, macramé color marrón chocolate.',
@@ -363,7 +410,7 @@ class Component extends DCLogic {
         'Obsidiana, macramé color verde.',
         'Obsidiana dorada, macramé color negro, con mostacillas plateadas.',
         'Malaquita verde, macramé color crema, con mostacillas doradas.',
-      ]),
+      ], { price: 30000 }),
       collection('Pulseras', 'pulseras', 9, 'Pulseras de piedras naturales, livianas y ajustables.', [
         'Pulsera de piedra natural: jaspe mookaite, con mostacillas plateadas.',
         'Pulsera de piedra natural: rodocrosita, con mostacillas plateadas.',
@@ -384,7 +431,7 @@ class Component extends DCLogic {
         'Rodocrosita, macramé color negro, con mostacillas plateadas.',
         null,
         'Labradorita, macramé color marrón chocolate, con mostacillas doradas.',
-      ]),
+      ], { price: 25000 }),
       collection('Modelo Trama', 'modelo-trama', 10, 'Macramé tejido en trama tupida.', [
         'Macramé color marrón, con mostacillas doradas.',
         'Cuarzo lechoso, macramé color marrón, con mostacillas doradas.',
@@ -396,7 +443,7 @@ class Component extends DCLogic {
         'Obsidiana, macramé color negro.',
         'Amatista, macramé color marrón violetoso, con mostacillas plateadas.',
         'Amatista mexicana, macramé color marrón chocolate, con mostacillas plateadas.',
-      ]),
+      ], { price: 20000 }),
       collection('Collares de piedras', 'collares-de-piedras', 11, 'Collar de piedras naturales, hecho a mano.', [
         'Ojo de tigre, con dije, mostacillas doradas.',
         'Lapislázuli, sin dije, mostacillas plateadas.',
@@ -409,12 +456,12 @@ class Component extends DCLogic {
         null,
         'Jaspe mookaite, sin dije, mostacillas plateadas.',
         null,
-      ]),
+      ], { price: 25000 }),
       collection('Modelo Cumbre', 'modelo-cumbre', 3, 'Macramé tejido a mano con piedra natural.', [
         'Malaquita verde, macramé color marrón chocolate, con mostacillas doradas.',
         'Ojo de tigre, macramé color marrón chocolate, con mostacillas doradas.',
         'Turquesa tibetana, macramé color negro, con mostacillas doradas.',
-      ]),
+      ], { price: 23000 }),
     ];
   }
 
@@ -422,6 +469,8 @@ class Component extends DCLogic {
     const raw = this.buildCategories();
     const ROW = 4; // items per row on desktop — the expand threshold
     const expanded = this.state.expanded || {};
+    const fmtPrice = (n) => '$' + n.toLocaleString('es-AR');
+    const priceOf = (c, i) => (c.itemPrices && c.itemPrices[i]) || c.price;
     const categories = raw.map(c => {
       const total = c.images.length;
       const isExpanded = !!expanded[c.anchor];
@@ -432,32 +481,43 @@ class Component extends DCLogic {
         name: c.name,
         anchor: c.anchor,
         blurb: c.blurb,
-        priceLabel: c.price ? ('$' + c.price) : 'Consultar',
         countLabel: total === 1 ? '1 ' + unit : total + ' ' + unitPlural,
         hasMore: total > ROW,
         toggleLabel: isExpanded ? 'Ver menos' : 'Ver más (+' + (total - ROW) + ')',
         toggle: () => this.setState(s => ({
           expanded: { ...(s.expanded || {}), [c.anchor]: !isExpanded },
         })),
-        products: c.images.slice(0, visibleCount).map((src, i) => ({
-          src, alt: c.name + ' ' + (i + 1),
-          href: '#product/' + c.anchor + '/' + (i + 1),
-          description: (c.itemDescs && c.itemDescs[i]) || c.blurb,
-        })),
+        products: c.images.slice(0, visibleCount).map((src, i) => {
+          const price = priceOf(c, i);
+          return {
+            src, alt: c.name + ' ' + (i + 1),
+            href: '#product/' + c.anchor + '/' + (i + 1),
+            description: (c.itemDescs && c.itemDescs[i]) || c.blurb,
+            priceLabel: price ? fmtPrice(price) : 'Consultar',
+          };
+        }),
       };
     });
+    const macrameCats = categories.filter(c => c.anchor !== 'joyeria' && c.anchor !== 'pulseras');
 
     let detail = null;
     if (this.state.detail) {
       const { anchor, n } = this.state.detail;
       const rc = raw.find(c => c.anchor === anchor);
       if (rc && n >= 1 && n <= rc.images.length) {
+        const price = priceOf(rc, n - 1);
+        const care = CARE_TEXT[rc.material] || CARE_TEXT.macrame;
         detail = {
           name: rc.name,
           description: (rc.itemDescs && rc.itemDescs[n - 1]) || rc.blurb,
+          priceLabel: price ? fmtPrice(price) : 'Consultar',
           src: rc.images[n - 1],
           alt: rc.name + ' ' + n,
           backHref: '#' + rc.anchor,
+          careTitle: care.title,
+          careIntro: care.intro,
+          careItems: care.items,
+          careOutro: care.outro,
         };
       }
     }
@@ -482,30 +542,25 @@ class Component extends DCLogic {
       toggle: () => this.setState(s => ({ openFaq: s.openFaq === i ? -1 : i })),
     }));
 
-    const panel = this.state.panel;
-    const fromLeft = panel === 'contact';
     return {
-      categories, testimonials, faqs,
+      categories, macrameCats, testimonials, faqs,
       firstAnchor: categories.length ? categories[0].anchor : 'top',
       detail, showDetail: !!detail, showCatalog: !detail,
       copyLink: () => this.copyLink(),
       copyLabel: this.state.copied ? '✓ Copiado' : 'Copiar link',
       copyBtnStyle: this.state.copied ? 'background:#6d7a54; border-color:#6d7a54; color:#ffffff;' : '',
-      panelSide: fromLeft
-        ? 'left:0; box-shadow:20px 0 60px rgba(0,0,0,0.2); animation:slideInLeft 0.4s cubic-bezier(0.22,1,0.36,1) both;'
-        : 'right:0; box-shadow:-20px 0 60px rgba(0,0,0,0.2); animation:slideIn 0.4s cubic-bezier(0.22,1,0.36,1) both;',
-      closeSide: fromLeft ? 'right:22px;' : 'right:22px;',
-      navClass: (!!detail || this.state.scrolled || this.state.navHover) ? 'solid' : '',
+      careOpen: this.state.careOpen,
+      careSign: this.state.careOpen ? '–' : '+',
+      toggleCare: () => this.setState(s => ({ careOpen: !s.careOpen })),
+      navClass: (!!detail || this.state.panelOpen || this.state.scrolled || this.state.navHover) ? 'solid' : '',
       navEnter: () => this.setState({ navHover: true }),
       navLeave: () => this.setState({ navHover: false }),
-      panelOpen: panel !== null,
-      isContact: panel === 'contact',
-      isCatalog: panel === 'catalog',
-      isMenu: panel === 'menu',
-      openContact: () => this.setState({ panel: 'contact' }),
-      openCatalog: () => this.setState({ panel: 'catalog' }),
-      openMenu: () => this.setState({ panel: 'menu' }),
-      closePanel: () => this.setState({ panel: null }),
+      panelOpen: this.state.panelOpen,
+      openMenu: () => this.setState({ panelOpen: true }),
+      closePanel: () => this.setState({ panelOpen: false }),
+      groupOpen: this.state.groupOpen,
+      groupSign: this.state.groupOpen ? '–' : '+',
+      toggleGroup: () => this.setState(s => ({ groupOpen: !s.groupOpen })),
     };
   }
 }
