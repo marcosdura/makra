@@ -37,6 +37,11 @@
   .m-card:hover .m-card-photo { transform: scale(1.06); }
   .m-btn { display: inline-block; background: none; border: 1px solid #c3c8b3; color: #5a6146; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; padding: 14px 32px; cursor: pointer; border-radius: 14px; text-align: center; text-decoration: none; transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease; }
   .m-btn:hover { background: #6d7a54; border-color: #6d7a54; color: #ffffff; }
+  .m-pill { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid #c3c8b3; border-radius: 999px; background: #ffffff; }
+  .m-pill-opt { background: none; border: none; border-radius: 999px; padding: 10px 28px; font-family: 'Jost', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #5a6146; cursor: pointer; transition: background 0.25s ease, color 0.25s ease; }
+  .m-pill-opt:hover { color: #3a3f2f; background: #f1f1ea; }
+  .m-pill-opt.is-active { background: #6d7a54; color: #ffffff; }
+  .m-pill-opt:focus-visible { outline: 2px solid #6d7a54; outline-offset: 2px; }
   .m-back-link { transition: color 0.25s ease; }
   .m-back-link:hover { color: #3a3f2f; }
   @media (max-width: 780px) {
@@ -118,9 +123,14 @@
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:clamp(28px,4vw,52px); text-align:left;">
         <sc-for list="{{ testimonials }}" as="t" hint-placeholder-count="3">
           <figure style="margin:0;">
+            <div style="position:relative; aspect-ratio:4/3; border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.08); margin-bottom:24px;">
+              <img data-zoom="1" data-lightbox="1" tabIndex="0" title="Ver foto completa" src="{{ t.photo }}" alt="{{ t.alt }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
+            </div>
             <div style="font-family:'Cormorant Garamond',serif; font-size:40px; line-height:0.4; opacity:0.5;">"</div>
             <blockquote style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:clamp(18px,2vw,22px); line-height:1.6; margin:14px 0 20px;">{{ t.quote }}</blockquote>
-            <figcaption style="font-size:11px; letter-spacing:0.2em; text-transform:uppercase; opacity:0.82;">{{ t.name }}</figcaption>
+            <sc-if value="{{ t.name }}" hint-placeholder-val="{{ false }}">
+              <figcaption style="font-size:11px; letter-spacing:0.2em; text-transform:uppercase; opacity:0.82;">{{ t.name }}</figcaption>
+            </sc-if>
           </figure>
         </sc-for>
       </div>
@@ -206,23 +216,46 @@
       <div style="text-align:center; max-width:620px; margin:0 auto clamp(40px,6vw,64px);">
         <div style="font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:#9aa085; margin-bottom:12px;">Catálogo</div>
         <h1 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(32px,5vw,48px); margin:0 0 20px; color:#3a3f2f;">Personalizados</h1>
-        <p style="font-weight:300; font-size:15px; line-height:1.8; color:#6b7059; margin:0;">Elegí la piedra para tu pieza a medida — cada modelo se puede personalizar con cualquiera de estas opciones. Muy pronto sumamos también los colores de hilo y de mostacillas disponibles.</p>
+        <p style="font-weight:300; font-size:15px; line-height:1.8; color:#6b7059; margin:0;">Elegí la piedra y el color de hilo para tu pieza a medida — cada modelo se puede personalizar con cualquiera de estas opciones. Muy pronto sumamos también los colores de mostacillas.</p>
       </div>
 
-      <div style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(24px,3vw,30px); color:#3a3f2f; margin:0 0 22px; text-align:left;">Piedras</div>
-      <div class="m-catalog-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:clamp(16px,2.2vw,28px); margin-bottom:clamp(48px,7vw,72px);">
-        <sc-for list="{{ stones }}" as="s" hint-placeholder-count="12">
-          <div style="display:flex; flex-direction:column;">
-            <div style="position:relative; aspect-ratio:1/1; background:#e7e6db; border-radius:14px; overflow:hidden;">
-              <img data-zoom="1" data-lightbox="1" tabIndex="0" title="Ver foto completa" src="{{ s.src }}" alt="{{ s.name }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
-            </div>
-            <div style="padding:12px 4px 0; text-align:left;">
-              <h3 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:18px; margin:0; color:#3a3f2f;">{{ s.name }}</h3>
-              <p style="font-weight:300; font-size:12.5px; line-height:1.5; color:#8a8f78; margin:5px 0 0;">{{ s.note }}</p>
-            </div>
-          </div>
-        </sc-for>
+      <div style="display:flex; justify-content:center; margin:0 0 clamp(28px,4vw,44px);">
+        <div class="m-pill" role="tablist" aria-label="Opciones de personalización">
+          <button type="button" role="tab" id="tab-piedras" aria-controls="panel-piedras" aria-selected="{{ tabPiedras.selected }}" class="m-pill-opt {{ tabPiedras.cls }}" onClick="{{ tabPiedras.select }}">Piedras</button>
+          <button type="button" role="tab" id="tab-hilos" aria-controls="panel-hilos" aria-selected="{{ tabHilos.selected }}" class="m-pill-opt {{ tabHilos.cls }}" onClick="{{ tabHilos.select }}">Hilos</button>
+        </div>
       </div>
+
+      <sc-if value="{{ tabPiedras.active }}" hint-placeholder-val="{{ true }}">
+        <div role="tabpanel" id="panel-piedras" aria-labelledby="tab-piedras" class="m-catalog-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:clamp(16px,2.2vw,28px); margin-bottom:clamp(48px,7vw,72px);">
+          <sc-for list="{{ stones }}" as="s" hint-placeholder-count="12">
+            <div style="display:flex; flex-direction:column;">
+              <div style="position:relative; aspect-ratio:1/1; background:#e7e6db; border-radius:14px; overflow:hidden;">
+                <img data-zoom="1" data-lightbox="1" tabIndex="0" title="Ver foto completa" src="{{ s.src }}" alt="{{ s.name }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
+              </div>
+              <div style="padding:12px 4px 0; text-align:left;">
+                <h3 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:18px; margin:0; color:#3a3f2f;">{{ s.name }}</h3>
+                <p style="font-weight:300; font-size:12.5px; line-height:1.5; color:#8a8f78; margin:5px 0 0;">{{ s.note }}</p>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ tabHilos.active }}" hint-placeholder-val="{{ false }}">
+        <div role="tabpanel" id="panel-hilos" aria-labelledby="tab-hilos" class="m-catalog-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:clamp(16px,2.2vw,28px); margin-bottom:clamp(48px,7vw,72px);">
+          <sc-for list="{{ threads }}" as="h" hint-placeholder-count="7">
+            <div style="display:flex; flex-direction:column;">
+              <div style="position:relative; aspect-ratio:1/1; background:#e7e6db; border-radius:14px; overflow:hidden;">
+                <img data-zoom="1" data-lightbox="1" tabIndex="0" title="Ver foto completa" src="{{ h.src }}" alt="{{ h.alt }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
+              </div>
+              <div style="padding:12px 4px 0; text-align:left;">
+                <h3 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:18px; margin:0; color:#3a3f2f;">{{ h.name }}</h3>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
 
       <div style="text-align:center;">
         <p style="font-weight:300; font-size:14px; line-height:1.7; color:#8a8f78; max-width:480px; margin:0 auto 28px;">¿Ya elegiste tu combinación? Escribinos y coordinamos los detalles.</p>
@@ -345,7 +378,7 @@ const CARE_TEXT = {
 };
 
 class Component extends DCLogic {
-  state = { panelOpen: false, groupOpen: true, careOpen: false, openFaq: 0, scrolled: false, navHover: false, expanded: {}, detail: null, customPage: false, copied: false };
+  state = { panelOpen: false, groupOpen: true, careOpen: false, openFaq: 0, scrolled: false, navHover: false, expanded: {}, detail: null, customPage: false, customTab: 'piedras', copied: false };
 
   _legacyCopy(text) {
     const ta = document.createElement('textarea');
@@ -410,6 +443,19 @@ class Component extends DCLogic {
     clearTimeout(this._copyTimer);
   }
 
+  buildThreads() {
+    const thread = (name, slug) => ({ name, src: './assets/hilos/' + slug + '.jpg', alt: 'Hilo color ' + name.toLowerCase() });
+    return [
+      thread('Bordo', 'bordo'),
+      thread('Marrón chocolate', 'marron-chocolate'),
+      thread('Negro', 'negro'),
+      thread('Verde petróleo', 'verde-petroleo'),
+      thread('Verde hoja', 'verde-hoja'),
+      thread('Marrón claro', 'marron-claro'),
+      thread('Gris oscuro', 'gris-oscuro'),
+    ];
+  }
+
   buildStones() {
     const stone = (name, slug, note) => ({ name, src: './assets/piedras/' + slug + '.jpg', note });
     return [
@@ -457,15 +503,21 @@ class Component extends DCLogic {
       return 'Collar de macramé con ' + parts.join(', ') + joiner + last + '.';
     };
     return [
-      collection('Modelo Frey', 'modelo-frey', 3, 'Collar de macramé tejido a mano con piedra natural.', [
+      collection('Modelo Frey', 'modelo-frey', 6, 'Collar de macramé tejido a mano con piedra natural.', [
         macrame('labradorita', 'marrón chocolate', 'doradas'),
         macrame('malaquita verde', 'marrón chocolate', 'doradas'),
         macrame('ónix cielo', 'marrón chocolate', 'plateadas'),
+        macrame('apatito', 'marrón chocolate', 'doradas'),
+        macrame('trinita', 'marrón', 'plateadas'),
+        macrame('unakita', 'marrón claro', null),
       ], { price: 35000 }),
-      collection('Joyería', 'joyeria', 8, 'Pieza de bronce elaborada artesanalmente.', null, {
+      collection('Joyería', 'joyeria', 14, 'Pieza de bronce elaborada artesanalmente.', null, {
         material: 'bronce',
-        // Precios por pieza (posición = orden alfabético de archivo).
-        itemPrices: [26000, 45000, 55000, 37000, 48000, 15000, 33000, 60000],
+        // Precios por pieza, en el orden de las fotos (ver codigos-descripciones.md).
+        itemPrices: [
+          26000, 45000, 55000, 37000, 48000, 15000, 33000, 60000, // IMG_0001 … IMG_9998
+          25000, 25000, 15000, 25000, 15000, 15000,               // IMG_0262 … IMG_0315
+        ],
       }),
       collection('Modelo Hila', 'modelo-hila', 11, 'Choker de macramé tejido a mano con piedra natural.', [
         macrame('malaquita', 'marrón chocolate', 'doradas'),
@@ -480,16 +532,24 @@ class Component extends DCLogic {
         macrame('obsidiana dorada', 'negro', 'plateadas'),
         macrame('malaquita verde', 'crema', 'doradas'),
       ], { price: 30000 }),
-      collection('Pulseras', 'pulseras', 9, 'Pulseras de piedras naturales, livianas y ajustables.', [
+      collection('Pulseras', 'pulseras', 17, 'Pulseras de piedras naturales, livianas y ajustables.', [
         'Pulsera de piedra natural: jaspe mookaite, con mostacillas plateadas.',
         'Pulsera de piedra natural: rodocrosita, con mostacillas plateadas.',
-        'Pulsera de piedra natural: jaspe ojo de tigre, con mostacillas doradas.',
+        'Pulsera de piedra natural: jaspe musgo, con mostacillas doradas.',
         'Pulsera de macramé color gris, con mostacillas plateadas.',
         'Pulsera de macramé color marrón chocolate, con mostacillas plateadas.',
         'Pulsera de macramé con amatista, color negro.',
         'Pulsera de macramé con labradorita, color gris.',
         'Pulsera de macramé color marrón chocolate, con mostacillas doradas.',
         'Pulsera de macramé con ónix cielo, color marrón.',
+        'Pulsera de piedra natural: amatista, con mostacillas plateadas.',
+        'Pulsera de piedra natural: cuarzo rosa, con mostacillas plateadas.',
+        'Pulsera de piedra natural: ojo de tigre, con mostacillas doradas.',
+        'Pulsera de piedra natural: aventurina, con mostacillas doradas.',
+        'Pulsera de piedra natural: unakita, con mostacillas doradas.',
+        'Pulsera de piedra natural: aventurina, con mostacillas plateadas.',
+        'Pulsera de piedra natural: jaspe musgo, con mostacillas doradas.',
+        'Pulsera de piedra natural: ojo de tigre, con mostacillas doradas.',
       ], { unit: 'pulsera', unitPlural: 'pulseras' }),
       collection('Modelo Lüm', 'modelo-lum', 7, 'Collar largo de macramé con piedra natural en forma de gota.', [
         macrame('ónix cielo', 'marrón chocolate', 'doradas'),
@@ -599,11 +659,12 @@ class Component extends DCLogic {
       }
     }
 
+    // Real client quotes and photos. Add `name` to any entry to show a caption.
     const testimonials = [
-      { quote: 'Me encantó mi choker, la piedra es hermosa y se nota que está hecho con dedicación.', name: 'Camila R.' },
-      { quote: 'El colgante llegó impecable y con un packaging precioso. Ya pedí dos más de regalo.', name: 'Lucía M.' },
-      { quote: 'La atención por Instagram fue súper cálida y me ayudaron a elegir la piedra ideal.', name: 'Sofía D.' },
-    ];
+      { quote: 'Realmente es increíble el talento que tenessss, dios amo todo.', photo: './assets/clientas/01.jpg' },
+      { quote: 'No puede ser más lindo, necesito otro ya!', photo: './assets/clientas/02.jpg' },
+      { quote: 'Amooo cómo quedó divino, combina con todo y ya no me lo quiero sacar jajajaja', photo: './assets/clientas/03.jpg' },
+    ].map((t) => ({ ...t, alt: 'Clienta de MÄKRA usando su collar' }));
 
     const faqData = [
       ['¿Las piezas son todas hechas a mano?', 'Sí, cada accesorio se teje y arma a mano, una por una. Por eso pueden existir pequeñas variaciones que hacen a cada pieza única.'],
@@ -619,9 +680,23 @@ class Component extends DCLogic {
       toggle: () => this.setState(s => ({ openFaq: s.openFaq === i ? -1 : i })),
     }));
 
+    // Personalizados tabs (Piedras / Hilos), driven by state.customTab.
+    const customTab = (id) => {
+      const active = this.state.customTab === id;
+      return {
+        active,
+        selected: active ? 'true' : 'false',
+        cls: active ? 'is-active' : '',
+        select: () => this.setState({ customTab: id }),
+      };
+    };
+
     return {
       categories, macrameCats, testimonials, faqs,
       stones: this.buildStones(),
+      threads: this.buildThreads(),
+      tabPiedras: customTab('piedras'),
+      tabHilos: customTab('hilos'),
       firstAnchor: categories.length ? categories[0].anchor : 'top',
       detail, showDetail: !!detail,
       showCustom: !!this.state.customPage,

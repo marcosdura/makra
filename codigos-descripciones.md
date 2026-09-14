@@ -1,15 +1,19 @@
 # Códigos de descripción — MÄKRA
 
-Referencia para decodificar los nombres de archivo de Google Drive y armar la descripción de cada pieza en el sitio. La numeración `01, 02, 03...` corresponde al orden alfabético de los archivos `IMG_XXXX` dentro de cada carpeta, que es el mismo orden en que se guardaron las fotos en `assets/collares/<coleccion>/`.
+Referencia para decodificar los nombres de archivo de Google Drive y armar la descripción de cada pieza en el sitio. La numeración `01, 02, 03...` es el nombre de la foto en `assets/collares/<coleccion>/` y el número de la pieza en su link (`#product/<coleccion>/<n>`).
+
+**Las fotos nuevas se agregan al final** (no intercaladas por número de archivo): así las piezas existentes conservan su número y no se rompen los links ya compartidos con "Copiar link".
 
 ## Leyenda de piedras
 
 | Código | Piedra |
 |---|---|
-| OT / jas.ot | Ojo de tigre / Jaspe ojo de tigre |
+| OT / Oj.tigre / jas.ot | Ojo de tigre / Jaspe ojo de tigre |
 | lap | Lapislázuli |
 | jasp dra | Jaspe dragón |
 | aven.ver | Aventurina verde |
+| Aventu / aventurina | Aventurina |
+| Jasp.musg / jaspe musgo | Jaspe musgo |
 | gran | Granate |
 | onix.cie | Ónix cielo |
 | jas.mook | Jaspe mookaite |
@@ -24,6 +28,8 @@ Referencia para decodificar los nombres de archivo de Google Drive y armar la de
 | obsi | Obsidiana |
 | trini | Trinita |
 | ama.mex | Amatista mexicana |
+| unakita | Unakita |
+| apatito | Apatito |
 
 `most.` = mostacillas (doradas / plateadas = tono del abalorio). `null` = ese campo no aplica en esa pieza.
 
@@ -58,9 +64,12 @@ Referencia para decodificar los nombres de archivo de Google Drive y armar la de
 | 01 | IMG_0006 | Labradorita | Marrón chocolate | Mostacillas doradas |
 | 02 | IMG_9937 | Malaquita verde | Marrón chocolate | Mostacillas doradas |
 | 03 | IMG_9938 | Ónix cielo | Marrón chocolate | Mostacillas plateadas |
+| 04 | IMG_0572 | Apatito | Marrón chocolate | Mostacillas doradas |
+| 05 | IMG_0573 | Trinita | Marrón | Mostacillas plateadas |
+| 06 | IMG_0576 | Unakita | Marrón claro | — |
 
 ### Joyería (`joyeria`)
-8 piezas, descripción genérica (material: bronce), sin código individual. Precio por pieza.
+14 piezas, descripción genérica (material: bronce), sin código individual. Precio por pieza.
 
 | # | Archivo | Precio |
 |---|---|---|
@@ -72,6 +81,12 @@ Referencia para decodificar los nombres de archivo de Google Drive y armar la de
 | 06 | IMG_9990 | $15.000 |
 | 07 | IMG_9991 | $33.000 |
 | 08 | IMG_9998 | $60.000 |
+| 09 | IMG_0262 | $25.000 |
+| 10 | IMG_0264 | $25.000 |
+| 11 | IMG_0266 | $15.000 |
+| 12 | IMG_0312 | $25.000 |
+| 13 | IMG_0314 | $15.000 |
+| 14 | IMG_0315 | $15.000 |
 
 ### Modelo Hila (`modelo-hila`)
 | # | Archivo | Piedra | Hilo | Detalle |
@@ -93,13 +108,24 @@ Referencia para decodificar los nombres de archivo de Google Drive y armar la de
 |---|---|---|---|---|---|
 | 01 | IMG_9877 | Piedra ensartada | Jaspe mookaite | — | Mostacillas plateadas |
 | 02 | IMG_9878 | Piedra ensartada | Rodocrosita | — | Mostacillas plateadas |
-| 03 | IMG_9879 | Piedra ensartada | Jaspe ojo de tigre | — | Mostacillas doradas |
+| 03 | IMG_9879 | Piedra ensartada | Jaspe musgo | — | Mostacillas doradas |
 | 04 | IMG_9943 | Macramé | — | Gris | Mostacillas plateadas |
 | 05 | IMG_9944 | Macramé | — | Marrón chocolate | Mostacillas plateadas |
 | 06 | IMG_9945 | Macramé | Amatista | Negro | — |
 | 07 | IMG_9946 | Macramé | Labradorita | Gris | — |
 | 08 | IMG_9947 | Macramé | — | Marrón chocolate | Mostacillas doradas |
 | 09 | IMG_9949 | Macramé | Ónix cielo | Marrón | — |
+| 10 | IMG_0317 | Piedra ensartada | Amatista | — | Mostacillas plateadas |
+| 11 | IMG_0318 | Piedra ensartada | Cuarzo rosa | — | Mostacillas plateadas |
+| 12 | IMG_0319 | Piedra ensartada | Ojo de tigre | — | Mostacillas doradas |
+| 13 | IMG_0320 | Piedra ensartada | Aventurina | — | Mostacillas doradas |
+| 14 | IMG_0321 | Piedra ensartada | Unakita | — | Mostacillas doradas |
+| 15 | IMG_0322 | Piedra ensartada | Aventurina | — | Mostacillas plateadas |
+| 16 | IMG_0323 | Piedra ensartada | Jaspe musgo | — | Mostacillas doradas |
+| 17 | IMG_0324 | Piedra ensartada | Ojo de tigre | — | Mostacillas doradas |
+
+La #03 se corrigió: el archivo de Drive pasó de `piedra-jas.ot-null-most.doradas` a `jaspe musgo-null-most.doradas`.
+Las 10–17 vienen con formato corto `Piedra-mostacillas` (sin tipo): son todas de piedra ensartada.
 
 ### Modelo Lüm (`modelo-lum`)
 | # | Archivo | Piedra | Hilo | Detalle |
@@ -151,3 +177,17 @@ Carpeta de Drive renombrada; ahora solo tiene estas 3 piezas (se sacaron del sit
 | 01 | IMG_9939 | Malaquita verde | Marrón chocolate | Mostacillas doradas |
 | 02 | IMG_9940 | Ojo de tigre | Marrón chocolate | Mostacillas doradas |
 | 03 | IMG_9941 | Turquesa tibetana | Negro | Mostacillas doradas |
+
+## Hilos (página Personalizados → tab "Hilos")
+
+Fotos en `assets/hilos/<color>.jpg`. Para sumar un color: agregar la foto y una línea en `buildThreads()` de `index.html`.
+
+| Archivo | Color | Foto |
+|---|---|---|
+| IMG_0123 | Bordo | `bordo.jpg` |
+| IMG_0125 | Marrón chocolate | `marron-chocolate.jpg` |
+| IMG_0126 | Negro | `negro.jpg` |
+| IMG_0127 | Verde petróleo | `verde-petroleo.jpg` |
+| IMG_0128 | Verde hoja | `verde-hoja.jpg` |
+| IMG_0129 | Marrón claro | `marron-claro.jpg` |
+| IMG_0130 | Gris oscuro | `gris-oscuro.jpg` |
