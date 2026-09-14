@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<script src="./photo-zoom.js" defer></script>
 </head>
 <body>
 <x-dc>
@@ -88,7 +89,7 @@
           <sc-for list="{{ cat.products }}" as="p" hint-placeholder-count="4">
             <a href="{{ p.href }}" class="m-card">
               <div style="position:relative; aspect-ratio:4/5; background:#e7e6db; border-radius:14px; overflow:hidden;">
-                <img class="m-card-photo" src="{{ p.src }}" alt="{{ p.alt }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
+                <img class="m-card-photo" data-zoom="1" src="{{ p.src }}" alt="{{ p.alt }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
               </div>
               <div style="padding:14px 10px 6px;">
                 <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px;">
@@ -155,7 +156,10 @@
       <a href="{{ detail.backHref }}" class="m-back-link" style="display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:#6b7059; margin-bottom:30px;">← Volver al catálogo</a>
       <div class="m-detail-grid" style="display:grid; grid-template-columns:1.15fr 1fr; gap:clamp(32px,5vw,64px); align-items:start;">
         <div style="position:relative; aspect-ratio:4/5; max-height:calc(100vh - 200px); background:#e7e6db; border-radius:16px; overflow:hidden;">
-          <img src="{{ detail.src }}" alt="{{ detail.alt }}" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
+          <img data-zoom="1" data-lightbox="1" tabIndex="0" title="Ver foto completa" src="{{ detail.src }}" alt="{{ detail.alt }}" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
+          <span aria-hidden="true" style="position:absolute; right:12px; bottom:12px; width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.9); box-shadow:0 2px 10px rgba(0,0,0,0.12); display:flex; align-items:center; justify-content:center; pointer-events:none;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3a3f2f" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path></svg>
+          </span>
         </div>
         <div style="padding-top:clamp(6px,2vw,26px);">
           <div style="font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:#9aa085; margin-bottom:10px;">Colección</div>
@@ -210,7 +214,7 @@
         <sc-for list="{{ stones }}" as="s" hint-placeholder-count="12">
           <div style="display:flex; flex-direction:column;">
             <div style="position:relative; aspect-ratio:1/1; background:#e7e6db; border-radius:14px; overflow:hidden;">
-              <img src="{{ s.src }}" alt="{{ s.name }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
+              <img data-zoom="1" data-lightbox="1" tabIndex="0" title="Ver foto completa" src="{{ s.src }}" alt="{{ s.name }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block;">
             </div>
             <div style="padding:12px 4px 0; text-align:left;">
               <h3 style="font-family:'Cormorant Garamond',serif; font-weight:500; font-size:18px; margin:0; color:#3a3f2f;">{{ s.name }}</h3>
@@ -426,8 +430,8 @@ class Component extends DCLogic {
 
   buildCategories() {
     // itemDescs[i] overrides the collection's generic `blurb` for that one
-    // photo; a null/missing entry falls back to `blurb` (used for the few
-    // pieces whose code we don't have yet — see codigos-descripciones.md).
+    // photo; a null/missing entry falls back to `blurb` (Joyería has no
+    // per-piece text). Codes behind each piece: codigos-descripciones.md.
     const collection = (name, slug, count, blurb, itemDescs, extra) => ({
       name,
       anchor: slug,
@@ -439,11 +443,24 @@ class Component extends DCLogic {
       ),
       ...extra,
     });
+    // Macramé necklace copy: "Collar de macramé con piedra X, hilo color Y y
+    // mostacillas Z." — piedra/mostacillas may be null (not every piece has them).
+    const macrame = (piedra, hilo, mostacillas) => {
+      const parts = [];
+      if (piedra) parts.push('piedra ' + piedra);
+      parts.push('hilo color ' + hilo);
+      if (mostacillas) parts.push('mostacillas ' + mostacillas);
+      const last = parts.pop();
+      if (!parts.length) return 'Collar de macramé con ' + last + '.';
+      // "y hilo" → "e hilo" (the conjunction changes before an "i" sound).
+      const joiner = /^hilo/.test(last) ? ' e ' : ' y ';
+      return 'Collar de macramé con ' + parts.join(', ') + joiner + last + '.';
+    };
     return [
-      collection('Modelo Frey', 'modelo-frey', 3, 'Macramé tejido a mano con piedra natural.', [
-        'Labradorita, macramé color marrón chocolate, con mostacillas doradas.',
-        'Malaquita verde, macramé color marrón chocolate, con mostacillas doradas.',
-        'Ónix cielo, macramé color marrón chocolate, con mostacillas plateadas.',
+      collection('Modelo Frey', 'modelo-frey', 3, 'Collar de macramé tejido a mano con piedra natural.', [
+        macrame('labradorita', 'marrón chocolate', 'doradas'),
+        macrame('malaquita verde', 'marrón chocolate', 'doradas'),
+        macrame('ónix cielo', 'marrón chocolate', 'plateadas'),
       ], { price: 35000 }),
       collection('Joyería', 'joyeria', 8, 'Pieza de bronce elaborada artesanalmente.', null, {
         material: 'bronce',
@@ -451,17 +468,17 @@ class Component extends DCLogic {
         itemPrices: [26000, 45000, 55000, 37000, 48000, 15000, 33000, 60000],
       }),
       collection('Modelo Hila', 'modelo-hila', 11, 'Choker de macramé tejido a mano con piedra natural.', [
-        'Malaquita, macramé color marrón chocolate, con mostacillas doradas.',
-        'Ojo de tigre, macramé color marrón chocolate.',
-        'Rodocrosita, macramé color marrón chocolate.',
-        'Labradorita azul, macramé color marrón chocolate, con mostacillas plateadas.',
-        'Amatista, macramé color marrón chocolate, con mostacillas plateadas.',
-        'Malaquita verde, macramé color marrón, con mostacillas doradas.',
-        'Malaquita, macramé color marrón, con mostacillas doradas.',
-        'Ónix blanco, macramé color verde, con mostacillas doradas.',
-        'Obsidiana, macramé color verde.',
-        'Obsidiana dorada, macramé color negro, con mostacillas plateadas.',
-        'Malaquita verde, macramé color crema, con mostacillas doradas.',
+        macrame('malaquita', 'marrón chocolate', 'doradas'),
+        macrame('ojo de tigre', 'marrón chocolate', null),
+        macrame('rodocrosita', 'marrón chocolate', null),
+        macrame('labradorita azul', 'marrón chocolate', 'plateadas'),
+        macrame('amatista', 'marrón chocolate', 'plateadas'),
+        macrame('malaquita verde', 'marrón', 'doradas'),
+        macrame('malaquita', 'marrón', 'doradas'),
+        macrame('ónix blanco', 'verde', 'doradas'),
+        macrame('obsidiana', 'verde', null),
+        macrame('obsidiana dorada', 'negro', 'plateadas'),
+        macrame('malaquita verde', 'crema', 'doradas'),
       ], { price: 30000 }),
       collection('Pulseras', 'pulseras', 9, 'Pulseras de piedras naturales, livianas y ajustables.', [
         'Pulsera de piedra natural: jaspe mookaite, con mostacillas plateadas.',
@@ -474,45 +491,42 @@ class Component extends DCLogic {
         'Pulsera de macramé color marrón chocolate, con mostacillas doradas.',
         'Pulsera de macramé con ónix cielo, color marrón.',
       ], { unit: 'pulsera', unitPlural: 'pulseras' }),
-      collection('Modelo Lüm', 'modelo-lum', 8, 'Collar largo de macramé con piedra natural en forma de gota.', [
-        'Ónix cielo, macramé color marrón chocolate, con mostacillas doradas.',
-        'Malaquita verde, macramé color marrón chocolate, con mostacillas doradas.',
-        'Ónix blanco, macramé color verde, con mostacillas doradas.',
-        'Ojo de tigre, macramé color marrón, con mostacillas doradas.',
-        'Malaquita, macramé color marrón, con mostacillas plateadas.',
-        'Rodocrosita, macramé color negro, con mostacillas plateadas.',
-        null,
-        'Labradorita, macramé color marrón chocolate, con mostacillas doradas.',
+      collection('Modelo Lüm', 'modelo-lum', 7, 'Collar largo de macramé con piedra natural en forma de gota.', [
+        macrame('ónix cielo', 'marrón chocolate', 'doradas'),
+        macrame('malaquita verde', 'marrón chocolate', 'doradas'),
+        macrame('ónix blanco', 'verde', 'doradas'),
+        macrame('ojo de tigre', 'marrón', 'doradas'),
+        macrame('malaquita', 'marrón', 'plateadas'),
+        macrame('rodocrosita', 'negro', 'plateadas'),
+        macrame('labradorita', 'marrón chocolate', 'doradas'),
       ], { price: 25000 }),
-      collection('Modelo Trama', 'modelo-trama', 10, 'Macramé tejido en trama tupida.', [
-        'Macramé color marrón, con mostacillas doradas.',
-        'Cuarzo lechoso, macramé color marrón, con mostacillas doradas.',
-        'Macramé color marrón chocolate, con mostacillas doradas.',
-        'Malaquita, macramé color marrón.',
-        'Trinita, macramé color marrón, con mostacillas doradas.',
-        'Malaquita verde, macramé color marrón chocolate, con mostacillas doradas.',
-        'Ónix blanco, macramé color verde, con mostacillas doradas.',
-        'Obsidiana, macramé color negro.',
-        'Amatista, macramé color marrón violetoso, con mostacillas plateadas.',
-        'Amatista mexicana, macramé color marrón chocolate, con mostacillas plateadas.',
+      collection('Modelo Trama', 'modelo-trama', 10, 'Collar de macramé tejido en trama tupida.', [
+        macrame(null, 'marrón', 'doradas'),
+        macrame('cuarzo lechoso', 'marrón', 'doradas'),
+        macrame(null, 'marrón chocolate', 'doradas'),
+        macrame('malaquita', 'marrón', null),
+        macrame('trinita', 'marrón', 'doradas'),
+        macrame('malaquita verde', 'marrón chocolate', 'doradas'),
+        macrame('ónix blanco', 'verde', 'doradas'),
+        macrame('obsidiana', 'negro', null),
+        macrame('amatista', 'marrón violetoso', 'plateadas'),
+        macrame('amatista mexicana', 'marrón chocolate', 'plateadas'),
       ], { price: 20000 }),
-      collection('Collares de piedras', 'collares-de-piedras', 11, 'Collar de piedras naturales, hecho a mano.', [
+      collection('Collares de piedras', 'collares-de-piedras', 9, 'Collar de piedras naturales, hecho a mano.', [
         'Ojo de tigre, con dije, mostacillas doradas.',
-        'Lapislázuli, sin dije, mostacillas plateadas.',
-        'Jaspe dragón, sin dije, mostacillas doradas.',
+        'Lapislázuli, mostacillas plateadas.',
+        'Jaspe dragón, mostacillas doradas.',
         'Jaspe dragón y ojo de tigre, con dije, mostacillas doradas.',
-        'Aventurina verde, sin dije, mostacillas plateadas.',
-        'Granate, sin dije, mostacillas doradas.',
-        'Ónix cielo, sin dije, mostacillas plateadas.',
-        'Ojo de tigre, sin dije, mostacillas doradas.',
-        null,
-        'Jaspe mookaite, sin dije, mostacillas plateadas.',
-        null,
+        'Aventurina verde, mostacillas plateadas.',
+        'Granate, mostacillas doradas.',
+        'Ónix cielo, mostacillas plateadas.',
+        'Ojo de tigre, mostacillas doradas.',
+        'Jaspe mookaite, mostacillas plateadas.',
       ], { price: 25000 }),
-      collection('Modelo Cumbre', 'modelo-cumbre', 3, 'Macramé tejido a mano con piedra natural.', [
-        'Malaquita verde, macramé color marrón chocolate, con mostacillas doradas.',
-        'Ojo de tigre, macramé color marrón chocolate, con mostacillas doradas.',
-        'Turquesa tibetana, macramé color negro, con mostacillas doradas.',
+      collection('Modelo Cumbre', 'modelo-cumbre', 3, 'Collar de macramé tejido a mano con piedra natural.', [
+        macrame('malaquita verde', 'marrón chocolate', 'doradas'),
+        macrame('ojo de tigre', 'marrón chocolate', 'doradas'),
+        macrame('turquesa tibetana', 'negro', 'doradas'),
       ], { price: 23000 }),
     ];
   }

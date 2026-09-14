@@ -40,6 +40,16 @@ Referencia para decodificar los nombres de archivo de Google Drive y armar la de
 | Pulseras (ex "Modelos varios Pulseras") | Tipo (piedra/macra) - Tipo de piedra - Color de piedra - Detalles |
 | Modelo Cumbre (ex "Varios modelos") | Tipo de piedra - Color de hilo - Detalles |
 
+## Cómo se escribe la descripción en el sitio
+
+- **Collares de macramé** (Frey, Hila, Lüm, Trama, Cumbre): `Collar de macramé con piedra <piedra>, hilo color <hilo> y mostacillas <tono>.`
+  - Sin mostacillas: `Collar de macramé con piedra <piedra> e hilo color <hilo>.`
+  - Sin piedra: `Collar de macramé con hilo color <hilo> y mostacillas <tono>.`
+  - En `index.html` lo arma el helper `macrame(piedra, hilo, mostacillas)`; pasar `null` en lo que no aplique.
+- **Collares de piedras**: `<Piedra>, con dije, mostacillas <tono>.` — si no tiene dije, no se menciona: `<Piedra>, mostacillas <tono>.`
+- **Pulseras**: texto propio por pieza. **Joyería**: descripción genérica de la colección.
+- Solo fotos de **una pieza por foto**: las fotos grupales (varios collares juntos) no van en el catálogo.
+
 ## Decodificación por pieza
 
 ### Modelo Frey (`modelo-frey`)
@@ -50,7 +60,18 @@ Referencia para decodificar los nombres de archivo de Google Drive y armar la de
 | 03 | IMG_9938 | Ónix cielo | Marrón chocolate | Mostacillas plateadas |
 
 ### Joyería (`joyeria`)
-14 piezas, descripción genérica (material: bronce), sin código individual.
+8 piezas, descripción genérica (material: bronce), sin código individual. Precio por pieza.
+
+| # | Archivo | Precio |
+|---|---|---|
+| 01 | IMG_0001 | $26.000 |
+| 02 | IMG_0004 | $45.000 |
+| 03 | IMG_9984 | $55.000 |
+| 04 | IMG_9986 | $37.000 |
+| 05 | IMG_9987 | $48.000 |
+| 06 | IMG_9990 | $15.000 |
+| 07 | IMG_9991 | $33.000 |
+| 08 | IMG_9998 | $60.000 |
 
 ### Modelo Hila (`modelo-hila`)
 | # | Archivo | Piedra | Hilo | Detalle |
@@ -80,8 +101,6 @@ Referencia para decodificar los nombres de archivo de Google Drive y armar la de
 | 08 | IMG_9947 | Macramé | — | Marrón chocolate | Mostacillas doradas |
 | 09 | IMG_9949 | Macramé | Ónix cielo | Marrón | — |
 
-⚠️ La carpeta de Drive "Modelos varios Pulseras" ahora muestra también IMG_9994 e IMG_9995 (macra-null-marrón choc-most.plateadas / most.doradas), que en el sitio están cargadas dentro de **Joyería**. No las moví — ver pregunta al final del archivo/chat.
-
 ### Modelo Lüm (`modelo-lum`)
 | # | Archivo | Piedra | Hilo | Detalle |
 |---|---|---|---|---|
@@ -91,8 +110,9 @@ Referencia para decodificar los nombres de archivo de Google Drive y armar la de
 | 04 | IMG_9905 | Ojo de tigre | Marrón | Mostacillas doradas |
 | 05 | IMG_9906 | Malaquita | Marrón | Mostacillas plateadas |
 | 06 | IMG_9907 | Rodocrosita | Negro | Mostacillas plateadas |
-| 07 | IMG_9908 | ❓ pendiente | ❓ pendiente | ❓ pendiente |
-| 08 | IMG_9913 | Labradorita | Marrón chocolate | Mostacillas doradas |
+| 07 | IMG_9913 | Labradorita | Marrón chocolate | Mostacillas doradas |
+
+IMG_9908 era una foto grupal (6 collares juntos): se sacó del catálogo.
 
 ### Modelo Trama (`modelo-trama`)
 | # | Archivo | Piedra | Hilo | Detalle |
@@ -119,9 +139,9 @@ Referencia para decodificar los nombres de archivo de Google Drive y armar la de
 | 06 | IMG_9890 | Granate | No | Mostacillas doradas |
 | 07 | IMG_9892 | Ónix cielo | No | Mostacillas plateadas |
 | 08 | IMG_9894 | Ojo de tigre | No | Mostacillas doradas |
-| 09 | IMG_9896 | ❓ pendiente | ❓ pendiente | ❓ pendiente |
-| 10 | IMG_9898 | Jaspe mookaite | No | Mostacillas plateadas |
-| 11 | IMG_9900 | ❓ pendiente | ❓ pendiente | ❓ pendiente |
+| 09 | IMG_9898 | Jaspe mookaite | No | Mostacillas plateadas |
+
+IMG_9896 (5 collares juntos) e IMG_9900 (3 collares juntos) eran fotos grupales: se sacaron del catálogo.
 
 ### Modelo Cumbre (`modelo-cumbre`, ex "Varios modelos")
 Carpeta de Drive renombrada; ahora solo tiene estas 3 piezas (se sacaron del sitio las otras 7 fotos que tenía la vieja colección "Varios modelos": IMG_9870, 9872, 9873, 9874, 9876, 9948, 9950).
