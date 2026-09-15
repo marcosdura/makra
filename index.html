@@ -315,7 +315,7 @@
               <span>Collares macramé</span>
               <span style="font-family:'Jost',sans-serif; font-size:18px; font-weight:300; color:#8f9578; flex:none;">{{ groupSign }}</span>
             </button>
-            <sc-if value="{{ groupOpen }}" hint-placeholder-val="{{ true }}">
+            <sc-if value="{{ groupOpen }}" hint-placeholder-val="{{ false }}">
               <div style="display:flex; flex-direction:column; align-items:flex-start; gap:12px; padding:10px 0 10px 16px;">
                 <sc-for list="{{ macrameCats }}" as="cat" hint-placeholder-count="6">
                   <a href="#{{ cat.anchor }}" onClick="{{ closePanel }}" style="color:#3a3f2f; font-family:'Cormorant Garamond',serif; font-size:19px; border-bottom:1px solid transparent; padding-bottom:2px; transition:color 0.25s, border-color 0.25s;" style-hover="color:#8b8f7c; border-bottom-color:#8b8f7c;">{{ cat.name }}</a>
@@ -382,7 +382,7 @@ const CARE_TEXT = {
 };
 
 class Component extends DCLogic {
-  state = { panelOpen: false, groupOpen: true, careOpen: false, openFaq: 0, scrolled: false, navHover: false, expanded: {}, detail: null, customPage: false, customTab: 'piedras', copied: false };
+  state = { panelOpen: false, groupOpen: false, careOpen: false, openFaq: 0, scrolled: false, navHover: false, expanded: {}, detail: null, customPage: false, customTab: 'piedras', copied: false };
 
   _legacyCopy(text) {
     const ta = document.createElement('textarea');
