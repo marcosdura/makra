@@ -69,7 +69,7 @@ Referencia para decodificar los nombres de archivo de Google Drive y armar la de
 | 06 | IMG_0576 | Unakita | Marrón claro | — |
 
 ### Joyería (`joyeria`)
-14 piezas, descripción genérica (material: bronce), sin código individual. Precio por pieza.
+14 piezas, sin código individual. Precio por pieza. Descripción genérica "Pieza de bronce elaborada artesanalmente.", salvo IMG_0312 e IMG_0314: "Pieza de alpaca elaborada artesanalmente."
 
 | # | Archivo | Precio |
 |---|---|---|
@@ -84,8 +84,8 @@ Referencia para decodificar los nombres de archivo de Google Drive y armar la de
 | 09 | IMG_0262 | $25.000 |
 | 10 | IMG_0264 | $25.000 |
 | 11 | IMG_0266 | $15.000 |
-| 12 | IMG_0312 | $25.000 |
-| 13 | IMG_0314 | $15.000 |
+| 12 | IMG_0312 | $25.000 (alpaca) |
+| 13 | IMG_0314 | $15.000 (alpaca) |
 | 14 | IMG_0315 | $15.000 |
 
 ### Modelo Hila (`modelo-hila`)
@@ -114,18 +114,18 @@ Referencia para decodificar los nombres de archivo de Google Drive y armar la de
 | 06 | IMG_9945 | Macramé | Amatista | Negro | — |
 | 07 | IMG_9946 | Macramé | Labradorita | Gris | — |
 | 08 | IMG_9947 | Macramé | — | Marrón chocolate | Mostacillas doradas |
-| 09 | IMG_9949 | Macramé | Ónix cielo | Marrón | — |
-| 10 | IMG_0317 | Piedra ensartada | Amatista | — | Mostacillas plateadas |
-| 11 | IMG_0318 | Piedra ensartada | Cuarzo rosa | — | Mostacillas plateadas |
-| 12 | IMG_0319 | Piedra ensartada | Ojo de tigre | — | Mostacillas doradas |
-| 13 | IMG_0320 | Piedra ensartada | Aventurina | — | Mostacillas doradas |
-| 14 | IMG_0321 | Piedra ensartada | Unakita | — | Mostacillas doradas |
-| 15 | IMG_0322 | Piedra ensartada | Aventurina | — | Mostacillas plateadas |
-| 16 | IMG_0323 | Piedra ensartada | Jaspe musgo | — | Mostacillas doradas |
-| 17 | IMG_0324 | Piedra ensartada | Ojo de tigre | — | Mostacillas doradas |
+| 09 | IMG_0317 | Piedra ensartada | Amatista | — | Mostacillas plateadas |
+| 10 | IMG_0318 | Piedra ensartada | Cuarzo rosa | — | Mostacillas plateadas |
+| 11 | IMG_0319 | Piedra ensartada | Ojo de tigre | — | Mostacillas doradas |
+| 12 | IMG_0320 | Piedra ensartada | Aventurina | — | Mostacillas doradas |
+| 13 | IMG_0321 | Piedra ensartada | Unakita | — | Mostacillas doradas |
+| 14 | IMG_0322 | Piedra ensartada | Aventurina | — | Mostacillas plateadas |
+| 15 | IMG_0323 | Piedra ensartada | Jaspe musgo | — | Mostacillas doradas |
+| 16 | IMG_0324 | Piedra ensartada | Ojo de tigre | — | Mostacillas doradas |
 
 La #03 se corrigió: el archivo de Drive pasó de `piedra-jas.ot-null-most.doradas` a `jaspe musgo-null-most.doradas`.
-Las 10–17 vienen con formato corto `Piedra-mostacillas` (sin tipo): son todas de piedra ensartada.
+IMG_9949 (macramé con ónix cielo) se sacó del catálogo.
+Las 09–16 vienen con formato corto `Piedra-mostacillas` (sin tipo): son todas de piedra ensartada.
 
 ### Modelo Lüm (`modelo-lum`)
 | # | Archivo | Piedra | Hilo | Detalle |

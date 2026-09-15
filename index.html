@@ -515,7 +515,14 @@ class Component extends DCLogic {
         macrame('trinita', 'marrón', 'plateadas'),
         macrame('unakita', 'marrón claro', null),
       ], { price: 35000 }),
-      collection('Joyería', 'joyeria', 14, 'Pieza de bronce elaborada artesanalmente.', null, {
+      collection('Joyería', 'joyeria', 14, 'Pieza de bronce elaborada artesanalmente.', [
+        // null = descripción genérica (bronce). En el mismo orden que los precios.
+        null, null, null, null, null, null, null, null, // IMG_0001 … IMG_9998
+        null, null, null,                               // IMG_0262, IMG_0264, IMG_0266
+        'Pieza de alpaca elaborada artesanalmente.',     // IMG_0312
+        'Pieza de alpaca elaborada artesanalmente.',     // IMG_0314
+        null,                                           // IMG_0315
+      ], {
         material: 'bronce',
         // Precios por pieza, en el orden de las fotos (ver codigos-descripciones.md).
         itemPrices: [
@@ -536,7 +543,7 @@ class Component extends DCLogic {
         macrame('obsidiana dorada', 'negro', 'plateadas'),
         macrame('malaquita verde', 'crema', 'doradas'),
       ], { price: 30000 }),
-      collection('Pulseras', 'pulseras', 17, 'Pulseras de piedras naturales, livianas y ajustables.', [
+      collection('Pulseras', 'pulseras', 16,'Pulseras de piedras naturales, livianas y ajustables.', [
         'Pulsera de piedra natural: jaspe mookaite, con mostacillas plateadas.',
         'Pulsera de piedra natural: rodocrosita, con mostacillas plateadas.',
         'Pulsera de piedra natural: jaspe musgo, con mostacillas doradas.',
@@ -545,7 +552,6 @@ class Component extends DCLogic {
         'Pulsera de macramé con amatista, color negro.',
         'Pulsera de macramé con labradorita, color gris.',
         'Pulsera de macramé color marrón chocolate, con mostacillas doradas.',
-        'Pulsera de macramé con ónix cielo, color marrón.',
         'Pulsera de piedra natural: amatista, con mostacillas plateadas.',
         'Pulsera de piedra natural: cuarzo rosa, con mostacillas plateadas.',
         'Pulsera de piedra natural: ojo de tigre, con mostacillas doradas.',
@@ -575,7 +581,7 @@ class Component extends DCLogic {
         macrame('obsidiana', 'negro', null),
         macrame('amatista', 'marrón violetoso', 'plateadas'),
         macrame('amatista mexicana', 'marrón chocolate', 'plateadas'),
-      ], { price: 20000 }),
+      ], { price: 25000 }),
       collection('Collares de piedras', 'collares-de-piedras', 9, 'Collar de piedras naturales, hecho a mano.', [
         'Ojo de tigre, con dije, mostacillas doradas.',
         'Lapislázuli, mostacillas plateadas.',
